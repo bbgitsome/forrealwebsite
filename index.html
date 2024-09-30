@@ -21,6 +21,7 @@
                         <div class="upload-section">
                             <div class="content">
                                 <div class="box">
+                                    <!-- UPLOAD AUDIO -->
                                     <img
                                         src="upload.png"
                                         id="upload-button"
@@ -73,7 +74,7 @@
                                       <text x="102" y="31.45" font-family="Fontsona5JP" font-size="15" fill="white" text-anchor="middle">More Information</text>
                                     </svg>
 
-                                    <!-- Change Color when deepfake: #ef4444 and bonafide: #4CAF50 -->
+                                    <!-- Change Color when deepfake: #ef4444 and bonafide: #4CAF50 dun sa fill part -->
                                 </div>
                                 <img
                                     src="reupload.png"
@@ -83,6 +84,7 @@
                                     onclick="handleReupload()"
                                 />
                             </div>
+                            <!-- YUNG DITO SA PART NATO YUNG BAGONG POP UP SA JS SA BABA MO SYA MAKIKITA -->
                             <div class="popUpMoreInfo">
                                 <div class="containerM">
                                     <div class="close-btn">x</div>
@@ -118,6 +120,7 @@
                 </div>
                 <div class="viewInfo"><a class="arrow arrow-right" title="Model Information"></a>
                 </div>
+                <!-- SWITCH MODEL STRUCTURE -->
                 <div id="info-button-container">
                     <button id="info-button">i</button>
                     <div id="switch-model-container" style="display: none;">
@@ -181,7 +184,7 @@
                                      currentContainer = containerP;
                                  }, 100);
                              }, { once: true });
-                         }, 3000); // Adjust this time as needed
+                         }, 3000); // Adjust this time as needed (pag masyadong matagal yung loading pwede bawasan to)
                      }
                  };
 
@@ -260,7 +263,7 @@
      const probabilityDisplay = document.getElementById("probability");
      const resultDisplay = document.getElementById("result");
      const threshold = 0.89;
-     const probability = 0.54; ////////////////////////// Example probability value
+     const probability = 0.54; //ITO YUNG PAPALITAN NG VALUE PAG OVER .89 DEEPFAKE tas pag below BONAFIDE sya yan lang papalitan sa part nato
 
      function updateUI(prob) {
          progressBar.style.height = `${prob * 100}%`;
