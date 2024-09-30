@@ -160,6 +160,7 @@ html {
     transform: scale(0.48);
     margin-top: 0;
     margin-bottom: 0;
+    border-radius: 50%;
     position: absolute; /* Set fixed positioning relative to viewport */
     bottom: 0%; /* Align to the bottom of the viewport */
     left: 0; /* Align to the left of the viewport */
@@ -280,7 +281,7 @@ html {
     height: 75%;
     max-width: 100%;
     max-height: 100%;
-    background-image: url("swing.png");
+    background-image: url("../images/swing.png");
     background-size: cover;
     background-repeat: no-repeat;
     align-items: center;
@@ -297,7 +298,7 @@ html {
     height: 75%;
     max-width: 100%;
     max-height: 100%;
-    background-image: url("swing.png");
+    background-image: url("../images/swing.png");
     background-size: cover;
     background-repeat: no-repeat;
     align-items: center;
@@ -315,7 +316,7 @@ html {
     height: 75%;
     max-width: 100%;
     max-height: 100%;
-    background-image: url("swing.png");
+    background-image: url("../images/swing.png");
     background-size: cover;
     background-repeat: no-repeat;
     align-items: center;
@@ -456,7 +457,7 @@ html {
 }
 @font-face {
     font-family: 'FontSona5JP';
-    src: url('Fonts/Fontsona5JP.ttf') format('truetype');
+    src: url('../fonts/Fontsona5JP.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -495,7 +496,7 @@ html {
 }
 @font-face {
     font-family: 'FontSona1PSP';
-    src: url('Fonts/Fontsona1PSP.ttf') format('truetype');
+    src: url('../fonts/Fontsona1PSP.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -674,7 +675,7 @@ html {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    background-image: url(moreInfoBG.png);
+    background-image: url(../images/moreInfoBG.png);
     background-size: cover;
     height: 280px;
 }
@@ -748,7 +749,7 @@ html {
 /* Background image for laptops and desktops(for responsiveness) */
 @media only screen and (min-width: 1024px) {
     .background-container {
-        background-image: url(newBG.png);
+        background-image: url(../images/newBG.png);
         background-position: top;
     }
     .container {
@@ -765,7 +766,7 @@ html {
 /* Background image for iPads/tablets */
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
     .background-container {
-        background-image: url("ipadBg.png");
+        background-image: url("../images/ipadBg.png");
     }
     .upload-box {
         position: absolute;
@@ -793,7 +794,7 @@ html {
         margin-top: 80px;
         width: 70%;
         height: 70%;
-        background-image: url("swing.png");
+        background-image: url("../images/swing.png");
         background-size: cover;
         background-repeat: no-repeat;
         align-items: center;
@@ -811,7 +812,7 @@ html {
         margin-top: 80px;
         width: 70%;
         height: 70%;
-        background-image: url("swing.png");
+        background-image: url("../images/swing.png");
         background-size: cover;
         background-repeat: no-repeat;
         align-items: center;
@@ -890,7 +891,7 @@ html {
 /* Background image for mobile devices */
 @media only screen and (max-width: 767px) {
     .background-container {
-        background-image: url("mobileBg.png");
+        background-image: url("../images/mobileBg.png");
     }
     .upload-box {
         position: absolute;
@@ -902,7 +903,7 @@ html {
         margin-top: 70px;
         width: 52%;
         height: 65%;
-        background-image: url(swing2.png);
+        background-image: url(../images/swing2.png);
         background-size: cover;
         background-repeat: no-repeat;
         align-items: center;
@@ -962,7 +963,7 @@ html {
         margin-top: 70px;
         width: 52%;
         height: 65%;
-        background-image: url("swing2.png");
+        background-image: url("../images/swing2.png");
         background-size: cover;
         background-repeat: no-repeat;
         align-items: center;
@@ -980,7 +981,7 @@ html {
         margin-top: 70px;
         width: 52%;
         height: 65%;
-        background-image: url("swing2.png");
+        background-image: url("../images/swing2.png");
         background-size: cover;
         background-repeat: no-repeat;
         align-items: center;
