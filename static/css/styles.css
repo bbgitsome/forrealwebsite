@@ -730,7 +730,8 @@ html {
 .threshold-line {
     width: 40%;
     height: 2px;
-    background-color: #DC0004;
+    /* background-color: #DC0004; */
+    background-color: black;
     position: absolute;
     bottom: 89%;
 }
@@ -1070,6 +1071,7 @@ html {
         margin-bottom: 28%;
         color: #BE0500;
     }
+    
     .viewInfo {
         position: fixed; /* Position the element relative to the viewport */
         bottom: 7%; /* Align to the bottom */

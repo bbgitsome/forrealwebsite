@@ -28,7 +28,7 @@
                                         class="button-image"
                                         alt="Upload Button"
                                         onclick="document.getElementById('file-input').click()"
-                                     />
+                                    />
                                     <input
                                         type="file"
                                         id="file-input"
@@ -63,15 +63,15 @@
                             <div class="contentP">
                                 <div class="box">
                                 </div>
-                                <img class="imageBasedOnModel" src="../static/images/propose.png">
+                                <img class="imageBasedOnModel" id="prediction-image" src="../static/images/propose.png">
                                 <p id="prediction-percentage">
-                                    <span>Spoof</span>
+                                    <span id="prediction-label"></span>
                                     <!-- Bonafide or Deepfake prediction -->
                                 </p>
                                 <div class="prediction-text">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204 51" width="204" height="51">
-                                      <rect x="0" y="0" width="204" height="51" rx="25.5" ry="25.5" fill="#BE0500" />
-                                      <text x="102" y="31.45" font-family="Fontsona5JP" font-size="15" fill="white" text-anchor="middle">More Information</text>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204 51" width="204" height="51" style="cursor: pointer;">
+                                        <rect x="0" y="0" width="204" height="51" rx="25.5" ry="25.5" fill="#BE0500" />
+                                        <text x="102" y="31.45" font-family="Fontsona5JP" font-size="15" fill="white" text-anchor="middle">More Information</text>
                                     </svg>
 
                                     <!-- Change Color when deepfake: #ef4444 and bonafide: #4CAF50 dun sa fill part -->
@@ -89,13 +89,13 @@
                                 <div class="containerM">
                                     <div class="close-btn">x</div>
                                     <div class="text-container">
-                                        <div class="label">Our Threshold : 0.89</div>
+                                        <div class="label">Our Threshold : <span id="thresholdValue"></span></div>
                                         <div class="label" id="probability">Probability : 0.00</div>
                                         <div class="result" id="result"></div>
                                     </div>
                                     <div class="progress-container">
                                         <div class="progress-bar" id="progressBar"></div>
-                                        <div class="threshold-line"></div>
+                                        <div class="threshold-line" id="thresholdLine"></div>
                                     </div>
                                 </div>
                             </div>
@@ -139,166 +139,214 @@
             <div id="transition-overlay"></div>
         </div>
     </body>
-     <script>
-     document.addEventListener("DOMContentLoaded", () => {
-                 const container = document.getElementById("animatedContainer");
-                 const containerP = document.getElementById("animatedContainerP");
-                 const containerI = document.getElementById("animatedContainerI");
-                 const fileInput = document.getElementById("file-input");
-                 const fileInfo = document.getElementById("file-info");
-                 const fileNameDisplay = document.getElementById("file-name");
-                 const viewInfoButton = document.querySelector(".viewInfo");
-                 const arrow = viewInfoButton.querySelector(".arrow");
-                 const loading = document.getElementById("loading");
-                 const uploadButton = document.getElementById("upload-button");
-                 const uploadBox = document.querySelector(".upload-box");
-                 const overlay = document.getElementById('transition-overlay');
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const container = document.getElementById("animatedContainer");
+                const containerP = document.getElementById("animatedContainerP");
+                const containerI = document.getElementById("animatedContainerI");
+                const fileInput = document.getElementById("file-input");
+                const fileInfo = document.getElementById("file-info");
+                const fileNameDisplay = document.getElementById("file-name");
+                const viewInfoButton = document.querySelector(".viewInfo");
+                const arrow = viewInfoButton.querySelector(".arrow");
+                const loading = document.getElementById("loading");
+                const uploadButton = document.getElementById("upload-button");
+                const uploadBox = document.querySelector(".upload-box");
+                const overlay = document.getElementById('transition-overlay');
 
-                 let currentContainer = container;
+                let currentContainer = container;
+                
+                let selectedModel = sessionStorage.getItem('selectedModel') || 'proposed';
+                
+                // SWITCH MODEL
+                const infoButton = document.getElementById('info-button');
+                const switchModelContainer = document.getElementById('switch-model-container');
+                const modelSwitch = document.getElementById('model-switch');
 
-                 // Handle file upload
-                 window.handleFileUpload = (files) => {
-                     if (files.length > 0) {
-                         const fileName = files[0].name;
-                         fileNameDisplay.textContent = fileName;
-                         fileInfo.style.display = "block";
+                infoButton.addEventListener('click', () => {
+                    if (switchModelContainer.style.display === 'none') {
+                        switchModelContainer.style.display = 'block';
+                    } else {
+                        switchModelContainer.style.display = 'none';
+                    }
+                });
 
-                         // Hide upload button
-                         uploadButton.style.display = "none";
+                // Hide the switch model container when clicking outside of it
+                document.addEventListener('click', (event) => {
+                    // Check if the click is outside the switch model container
+                    if (!switchModelContainer.contains(event.target) && event.target !== infoButton) {
+                        switchModelContainer.style.display = 'none';
+                    }
+                });
 
-                         // Show loading animation
-                         loading.style.display = "block";
+                // Set session storage for user's model choice
+                modelSwitch.addEventListener('change', () => {
+                    selectedModel = modelSwitch.checked ? 'baseline' : 'proposed';
+                    console.log('Model switched:', selectedModel);
+                    
+                    sessionStorage.setItem('selectedModel', selectedModel);
+                });
 
-                         // Simulate file processing (replace with actual processing time)
-                         setTimeout(() => {
-                             // Hide loading animation
-                             loading.style.display = "none";
+                // MORE INFO ABOUT MODEL OUTPUT
+                const progressBar = document.getElementById("progressBar");
+                const probabilityDisplay = document.getElementById("probability");
+                const resultDisplay = document.getElementById("result");
+                const thresholdDisplay = document.getElementById("thresholdValue");
+                const thresholdLine = document.getElementById("thresholdLine");
+                const threshold = 0.89;
 
-                             container.classList.add("pull-up");
+                function updateUI(prob, model) {
 
-                             container.addEventListener("animationend", () => {
-                                 container.style.display = "none";
-                                 setTimeout(() => {
-                                     containerP.style.display = "block";
-                                     containerP.classList.add("show");
-                                     currentContainer = containerP;
-                                 }, 100);
-                             }, { once: true });
-                         }, 3000); // Adjust this time as needed (pag masyadong matagal yung loading pwede bawasan to)
-                     }
-                 };
+                    let threshold = model === 'proposed' ? 0.89 : 0.50;
 
+                    // Update the displayed threshold value
+                    thresholdDisplay.textContent = threshold.toFixed(2);
 
+                    progressBar.style.height = `${prob * 100}%`;
+                    progressBar.style.backgroundColor =
+                        prob >= threshold ? "#FF4136" : "#4CAF50";
+                    probabilityDisplay.textContent = `Probability : ${prob.toFixed(2)}`;
+                    resultDisplay.textContent =
+                        prob >= threshold
+                            ? "Your Audio is more likely to be a deepfake audio"
+                            : "Your Audio is more likely to be a bonafide audio";
 
+                    // Adjust the threshold line position based on the selected model threshold
+                    thresholdLine.style.bottom = `${threshold * 100}%`;
+                }
 
-       // Add event listener to the file input
-       fileInput.addEventListener("change", () => {
-         handleFileUpload(fileInput.files);
-       });
+                function updatePredictionUI(model, prediction) {
+                    const predictionImage = document.getElementById("prediction-image");
 
-       // Add this new function to handle reupload
-       window.handleReupload = () => {
-                       overlay.classList.add('active');
+                    // Logic to update the image based on model and prediction
+                    if (model === 'proposed') {
+                        if (prediction === 'Spoof') {
+                            predictionImage.src = "../static/images/propose.png";
+                        } else if (prediction === 'Bonafide') {
+                            predictionImage.src = "../static/images/proposeBonafide.png";
+                        }
+                    } else if (model === 'baseline') {
+                        if (prediction === 'Spoof') {
+                            predictionImage.src = "../static/images/base.png";
+                        } else if (prediction === 'Bonafide') {
+                            predictionImage.src = "../static/images/baselineBonafide.png";
+                        }
+                    }
+                }
+                
+                // Handle file upload
+                window.handleFileUpload = (files) => {
+                    if (files.length > 0) {
+                        const fileName = files[0].name;
+                        fileNameDisplay.textContent = fileName;
+                        fileInfo.style.display = "block";
+                        uploadButton.style.display = "none";
+                        loading.style.display = "block";
 
-                       setTimeout(() => {
-                           // Set a session storage flag
-                           sessionStorage.setItem('reloading', 'true');
-                           window.location.reload();
-                       }, 100);
-                   };
-       if (sessionStorage.getItem('reloading') === 'true') {
-                       // Remove the flag
-                       sessionStorage.removeItem('reloading');
+                        const formData = new FormData();
+                        formData.append('file', files[0]);
 
-                       // Keep the overlay visible initially
-                       overlay.classList.add('active');
+                        // Send file and model choice to Flask backend
+                        fetch('/predict', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'Model-Type': selectedModel
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            loading.style.display = "none";
+                            container.classList.add("pull-up");
 
-                       // Fade out the overlay
-                       setTimeout(() => {
-                           overlay.classList.remove('active');
-                       }, 25);
-                   }
+                            container.addEventListener("animationend", () => {
+                                container.style.display = "none";
+                                setTimeout(() => {
+                                    containerP.style.display = "block";
+                                    containerP.classList.add("show");
+                                    currentContainer = containerP;
 
-       // Handle view info button click
-       viewInfoButton.addEventListener("click", () => {
-         if (arrow.classList.contains("arrow-right")) {
-           // Hide current container and show containerI
-           currentContainer.style.display = "none";
-           containerI.style.display = "block";
-           containerI.classList.add("show");
-           arrow.classList.remove("arrow-right");
-           arrow.classList.add("arrow-left");
-           arrow.setAttribute("title", "Back to Upload/Predict");
-         } else {
-           // Hide containerI and show previous container
-           containerI.style.display = "none";
-           containerI.classList.remove("show");
-           currentContainer.style.display = "block";
-           arrow.classList.remove("arrow-left");
-           arrow.classList.add("arrow-right");
-           arrow.setAttribute("title", "Model Information");
-         }
-       });
-     });
+                                    // Update UI with prediction results
+                                    const probability = data.probability;
+                                    const prediction =  data.prediction;
+                                    document.getElementById("prediction-label").textContent = prediction;
+                                    updatePredictionUI(selectedModel, prediction);
+                                    updateUI(probability, selectedModel);
+                                }, 100);
+                            }, { once: true });
+                        })
+                        .catch(error => {
+                            loading.style.display = "none";
+                            alert('Error during file upload: ' + error);
+                        });
+                    }
+                };
 
-     // SWITCH MODEL
-     const infoButton = document.getElementById('info-button');
-         const switchModelContainer = document.getElementById('switch-model-container');
-         const modelSwitch = document.getElementById('model-switch');
+                // Add this new function to handle reupload
+                window.handleReupload = () => {
+                    overlay.classList.add('active');
 
-         infoButton.addEventListener('click', () => {
-             if (switchModelContainer.style.display === 'none') {
-                 switchModelContainer.style.display = 'block';
-             } else {
-                 switchModelContainer.style.display = 'none';
-             }
-         });
+                    setTimeout(() => {
+                        // Set a session storage flag
+                        sessionStorage.setItem('reloading', 'true');
+                        window.location.reload();
+                    }, 100);
+                };
+                if (sessionStorage.getItem('reloading') === 'true') {
+                    // Remove the flag
+                    sessionStorage.removeItem('reloading');
 
-         modelSwitch.addEventListener('change', () => {
-             console.log('Model switched:', modelSwitch.checked);
-         });
+                    // Keep the overlay visible initially
+                    overlay.classList.add('active');
 
-     // MORE INFO ABOUT MODEL OUTPUT
-     const progressBar = document.getElementById("progressBar");
-     const probabilityDisplay = document.getElementById("probability");
-     const resultDisplay = document.getElementById("result");
-     const threshold = 0.89;
-     const probability = 0.54; //ITO YUNG PAPALITAN NG VALUE PAG OVER .89 DEEPFAKE tas pag below BONAFIDE sya yan lang papalitan sa part nato
+                    // Fade out the overlay
+                    setTimeout(() => {
+                        overlay.classList.remove('active');
+                    }, 25);
+                }
 
-     function updateUI(prob) {
-         progressBar.style.height = `${prob * 100}%`;
-         progressBar.style.backgroundColor =
-             prob >= threshold ? "#FF4136" : "#4CAF50";
-         probabilityDisplay.textContent = `Probability : ${prob.toFixed(2)}`;
-         resultDisplay.textContent =
-             prob >= threshold
-                 ? "Your Audio is more likely to be a deepfake audio"
-                 : "Your Audio is more likely to be a bonafide audio";
-     }
+                // Handle view info button click
+                viewInfoButton.addEventListener("click", () => {
+                    if (arrow.classList.contains("arrow-right")) {
+                    // Hide current container and show containerI
+                    currentContainer.style.display = "none";
+                    containerI.style.display = "block";
+                    containerI.classList.add("show");
+                    arrow.classList.remove("arrow-right");
+                    arrow.classList.add("arrow-left");
+                    arrow.setAttribute("title", "Back to Upload/Predict");
+                    } else {
+                    // Hide containerI and show previous container
+                    containerI.style.display = "none";
+                    containerI.classList.remove("show");
+                    currentContainer.style.display = "block";
+                    arrow.classList.remove("arrow-left");
+                    arrow.classList.add("arrow-right");
+                    arrow.setAttribute("title", "Model Information");
+                    }
+                });
+            });
 
-     // Initial update
-     updateUI(probability);
+            // POP UP RELATED CODE
+            const moreInfoButton = document.querySelector('.prediction-text svg');
+            const popUpMoreInfo = document.querySelector('.popUpMoreInfo');
+            const closeBtn = document.querySelector('.close-btn');
+            const overlay = document.getElementById('overlay');
 
-     // POP UP SHITSSS
-     const moreInfoButton = document.querySelector('.prediction-text svg');
-             const popUpMoreInfo = document.querySelector('.popUpMoreInfo');
-             const closeBtn = document.querySelector('.close-btn');
-             const overlay = document.getElementById('overlay');
+            moreInfoButton.addEventListener('click', () => {
+                popUpMoreInfo.style.display = 'block';
+                overlay.style.display = 'block';
+            });
 
-             moreInfoButton.addEventListener('click', () => {
-                 popUpMoreInfo.style.display = 'block';
-                 overlay.style.display = 'block';
-             });
+            closeBtn.addEventListener('click', () => {
+                popUpMoreInfo.style.display = 'none';
+                overlay.style.display = 'none';
+            });
 
-             closeBtn.addEventListener('click', () => {
-                 popUpMoreInfo.style.display = 'none';
-                 overlay.style.display = 'none';
-             });
-
-             overlay.addEventListener('click', () => {
-                 popUpMoreInfo.style.display = 'none';
-                 overlay.style.display = 'none';
-             });
+            overlay.addEventListener('click', () => {
+                popUpMoreInfo.style.display = 'none';
+                overlay.style.display = 'none';
+            });
 
         </script>
     </body>

@@ -1,2 +1,2 @@
-When running locally, download the WavLM Model Weights on this link https://mega.nz/file/FnJyBIhR#nu1T9PV-4G2GfreSoA3Ho3mZWUVwV7NZ9p4Pj0-xiak
+If you want to run it on your local machine, download the WavLM Model Weights on this link https://mega.nz/file/FnJyBIhR#nu1T9PV-4G2GfreSoA3Ho3mZWUVwV7NZ9p4Pj0-xiak
 And place it in this directory (models/for_real)

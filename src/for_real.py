@@ -33,26 +33,33 @@ class CustomWavLMForFeatureExtraction(nn.Module):
         attended_hidden = self.attention(hidden_states)
         return attended_hidden
 
-model_data = joblib.load('output_models/clean2percent.joblib')
-calibrated_model = model_data['calibrated_model']
-selector = model_data['selector']
 
 #eto yung pinaka okay na threshold based sa testing ko sa real world data aka samples from youtube pero applicable lang sya for this model exactly
 best_threshold = 0.89
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model_name = "patrickvonplaten/wavlm-libri-clean-100h-base-plus"
-processor = AutoProcessor.from_pretrained(model_name)
 
-wavlm_model = CustomWavLMForFeatureExtraction(model_name).to(device)
+def load_for_real_model():
+    # Load the model
+    model_data = joblib.load('models/for_real/clean2percent.joblib')
+    calibrated_model = model_data['calibrated_model']
+    selector = model_data['selector']
+    
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model_name = "patrickvonplaten/wavlm-libri-clean-100h-base-plus"
+    processor = AutoProcessor.from_pretrained(model_name)
+    
+    wavlm_model = CustomWavLMForFeatureExtraction(model_name).to(device)
+    
+    state_dict = torch.load('models/for_real/best_wavlm_asvspoof_model.pth', map_location=device)
+    keys_to_remove = ["classifier.weight", "classifier.bias"]
+    for key in keys_to_remove:
+        state_dict.pop(key, None)
+    
+    wavlm_model.load_state_dict(state_dict, strict=False)
+    wavlm_model.eval()
+    
+    return wavlm_model, calibrated_model, selector, processor, device
 
-state_dict = torch.load('/home/osaka/jupyter_env/pytorch_env/bin/best_wavlm_asvspoof_model.pth', map_location=device)
-keys_to_remove = ["classifier.weight", "classifier.bias"]
-for key in keys_to_remove:
-    state_dict.pop(key, None)
-
-wavlm_model.load_state_dict(state_dict, strict=False)
-wavlm_model.eval()
 
 def extract_handcrafted_features(audio, sr=16000):
     cqt = np.abs(librosa.cqt(audio, sr=sr, n_bins=84, bins_per_octave=12, fmin=librosa.note_to_hz('C1')))
@@ -83,11 +90,11 @@ def monte_carlo_dropout(model, input_values, num_samples=10):
     variance = torch.var(mc_samples, dim=0)
     return mean, variance
 
-def predict_sample(file_path):
-    audio, sr = librosa.load(file_path, sr=16000, duration=60)
+def predict_for_real(file_path, wavlm_model, calibrated_model, selector, processor, device):
+    audio, sr = librosa.load(file_path, sr=16000, duration=30)
     input_values = processor(audio, sampling_rate=16000, return_tensors="pt").input_values.to(device)
 
-    wavlm_features, wavlm_uncertainty = monte_carlo_dropout(wavlm_model, input_values)
+    wavlm_features, wavlm_variance = monte_carlo_dropout(wavlm_model, input_values)
 
     cqt_features, gfcc_features = extract_handcrafted_features(audio)
 
@@ -96,36 +103,14 @@ def predict_sample(file_path):
     weighted_wavlm = wavlm_features.cpu().numpy().flatten() * wavlm_weight
     weighted_cqt = cqt_features.flatten() * cqt_weight
     weighted_gfcc = gfcc_features.flatten() * gfcc_weight
-    wavlm_uncertainty = wavlm_uncertainty.cpu().numpy().flatten()
+    wavlm_variance = wavlm_variance.cpu().numpy().flatten()
     
-    combined_feature = np.concatenate([weighted_wavlm, weighted_cqt, weighted_gfcc, wavlm_uncertainty])
+    combined_feature = np.concatenate([weighted_wavlm, weighted_cqt, weighted_gfcc, wavlm_variance])
 
     selected_features = selector.transform(combined_feature.reshape(1, -1))
 
-    prediction_proba = calibrated_model.predict_proba(selected_features)[0, 1]
-    prediction = 1 if prediction_proba >= best_threshold else 0
+    spoof_probability = calibrated_model.predict_proba(selected_features)[0, 1]
+    prediction = 1 if spoof_probability >= best_threshold else 0
 
-    return prediction, prediction_proba
+    return prediction, float(spoof_probability)
 
-def main():
-    while True:
-        file_path = input("\nEnter the path to the audio file: ")
-
-        if file_path.lower() == 'q':
-                break
-        
-        try:
-            prediction, probability= predict_sample(file_path)
-            
-            print("\nPrediction Results:")
-            print(f"Prediction: {'Spoof' if prediction == 1 else 'Bonafide'}")
-            print(f"Samples with probabilities higher than our threshold will be considered as Spoof/Deepfake")
-            print(f"Our Threshold : {best_threshold}")
-            print(f"Probability: {probability:.4f}")
-            
-
-        except Exception as e:
-            print(f"Error processing the file: {str(e)}")
-
-if __name__ == "__main__":
-    main()
