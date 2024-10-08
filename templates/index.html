@@ -70,7 +70,7 @@
                                 </p>
                                 <div class="prediction-text">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204 51" width="204" height="51" style="cursor: pointer;">
-                                        <rect x="0" y="0" width="204" height="51" rx="25.5" ry="25.5" fill="#BE0500" />
+                                        <rect id="colorRect" x="0" y="0" width="204" height="51" rx="25.5" ry="25.5" fill="#BE0500" />
                                         <text x="102" y="31.45" font-family="Fontsona5JP" font-size="15" fill="white" text-anchor="middle">More Information</text>
                                     </svg>
 
@@ -213,6 +213,10 @@
 
                     // Adjust the threshold line position based on the selected model threshold
                     thresholdLine.style.bottom = `${threshold * 100}%`;
+
+                    // Change the rect color based on the prediction result
+                    const rectElement = document.getElementById("colorRect");
+                    rectElement.setAttribute("fill", prob >= threshold ? "#ef4444" : "#4CAF50");
                 }
 
                 function updatePredictionUI(model, prediction) {
@@ -237,7 +241,18 @@
                 // Handle file upload
                 window.handleFileUpload = (files) => {
                     if (files.length > 0) {
-                        const fileName = files[0].name;
+                        const file = files[0];
+                        const fileName = file.name;
+
+                        // Allowed file types (WAV, MP3, FLAC)
+                        const allowedTypes = ['audio/wav', 'audio/mpeg', 'audio/flac'];
+
+                        // File type validation
+                        if (!allowedTypes.includes(file.type)) {
+                            alert('Invalid file type. Only WAV, MP3, or FLAC files are allowed.');
+                            return;
+                        }
+
                         fileNameDisplay.textContent = fileName;
                         fileInfo.style.display = "block";
                         uploadButton.style.display = "none";

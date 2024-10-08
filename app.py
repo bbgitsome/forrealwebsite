@@ -48,6 +48,13 @@ def predict_audio():
     file = request.files['file']
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
+    
+    # Validate on Flask side
+    allowed_extensions = ['wav', 'mp3', 'flac']
+    if not any(file.filename.endswith(ext) for ext in allowed_extensions):
+        os.remove(audio_path)  # Remove invalid file
+        return jsonify({"error": "Invalid file type. Only WAV, MP3, or FLAC are accepted."}), 400
+
 
     # Save the uploaded file securely
     filename = secure_filename(file.filename)
