@@ -193,11 +193,11 @@
                 const resultDisplay = document.getElementById("result");
                 const thresholdDisplay = document.getElementById("thresholdValue");
                 const thresholdLine = document.getElementById("thresholdLine");
-                const threshold = 0.89;
+                const threshold = 0.57;
 
                 function updateUI(prob, model) {
 
-                    let threshold = model === 'proposed' ? 0.89 : 0.50;
+                    let threshold = model === 'proposed' ? 0.57 : 0.10;
 
                     // Update the displayed threshold value
                     thresholdDisplay.textContent = threshold.toFixed(2);
@@ -245,13 +245,17 @@
                         const fileName = file.name;
 
                         // Allowed file types (WAV, MP3, FLAC)
-                        const allowedTypes = ['audio/wav', 'audio/mpeg', 'audio/flac'];
+                        const allowedTypes = ['audio/wav', 'audio/x-wav', 'audio/mpeg', 'audio/flac'];
+                        const allowedExtensions = ['wav', 'mp3', 'flac'];
 
-                        // File type validation
-                        if (!allowedTypes.includes(file.type)) {
+                        const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                        // Check MIME type and file extension
+                        if (!allowedTypes.includes(file.type) || !allowedExtensions.includes(fileExtension)) {
                             alert('Invalid file type. Only WAV, MP3, or FLAC files are allowed.');
                             return;
                         }
+
 
                         fileNameDisplay.textContent = fileName;
                         fileInfo.style.display = "block";

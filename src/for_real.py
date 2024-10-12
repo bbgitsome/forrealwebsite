@@ -33,33 +33,29 @@ class CustomWavLMForFeatureExtraction(nn.Module):
         attended_hidden = self.attention(hidden_states)
         return attended_hidden
 
-
-#eto yung pinaka okay na threshold based sa testing ko sa real world data aka samples from youtube pero applicable lang sya for this model exactly
-best_threshold = 0.89
-
+best_threshold = 0.5700
 
 def load_for_real_model():
-    # Load the model
-    model_data = joblib.load('models/for_real/clean2percent.joblib')
+
+    model_data = joblib.load('models/for_real/weighted.joblib')
     calibrated_model = model_data['calibrated_model']
     selector = model_data['selector']
-    
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model_name = "patrickvonplaten/wavlm-libri-clean-100h-base-plus"
     processor = AutoProcessor.from_pretrained(model_name)
-    
+
     wavlm_model = CustomWavLMForFeatureExtraction(model_name).to(device)
-    
+
     state_dict = torch.load('models/for_real/best_wavlm_asvspoof_model.pth', map_location=device)
     keys_to_remove = ["classifier.weight", "classifier.bias"]
     for key in keys_to_remove:
         state_dict.pop(key, None)
-    
+
     wavlm_model.load_state_dict(state_dict, strict=False)
     wavlm_model.eval()
-    
-    return wavlm_model, calibrated_model, selector, processor, device
 
+    return wavlm_model, processor, calibrated_model, selector, device
 
 def extract_handcrafted_features(audio, sr=16000):
     cqt = np.abs(librosa.cqt(audio, sr=sr, n_bins=84, bins_per_octave=12, fmin=librosa.note_to_hz('C1')))
@@ -90,27 +86,31 @@ def monte_carlo_dropout(model, input_values, num_samples=10):
     variance = torch.var(mc_samples, dim=0)
     return mean, variance
 
-def predict_for_real(file_path, wavlm_model, calibrated_model, selector, processor, device):
-    audio, sr = librosa.load(file_path, sr=16000, duration=30)
+def predict_for_real(file_path, wavlm_model, processor, calibrated_model, selector, device):
+    audio, sr = librosa.load(file_path, sr=16000, duration=60)
     input_values = processor(audio, sampling_rate=16000, return_tensors="pt").input_values.to(device)
-
-    wavlm_features, wavlm_variance = monte_carlo_dropout(wavlm_model, input_values)
-
+    with torch.no_grad():
+        wavlm_features, wavlm_uncertainty = monte_carlo_dropout(wavlm_model, input_values)
     cqt_features, gfcc_features = extract_handcrafted_features(audio)
+    
+    wavlm_features_np = wavlm_features.cpu().numpy().flatten()
+    cqt_features_np = cqt_features.flatten()
+    gfcc_features_np = gfcc_features.flatten()
+    wavlm_uncertainty_np = wavlm_uncertainty.cpu().numpy().flatten()
+
+    # Normalize each feature set
+    wavlm_norm = (wavlm_features_np - np.mean(wavlm_features_np)) / np.std(wavlm_features_np)
+    cqt_norm = (cqt_features_np - np.mean(cqt_features_np)) / np.std(cqt_features_np)
+    gfcc_norm = (gfcc_features_np - np.mean(gfcc_features_np)) / np.std(gfcc_features_np)
 
     wavlm_weight, cqt_weight, gfcc_weight = 0.4, 0.3, 0.3
-    
-    weighted_wavlm = wavlm_features.cpu().numpy().flatten() * wavlm_weight
-    weighted_cqt = cqt_features.flatten() * cqt_weight
-    weighted_gfcc = gfcc_features.flatten() * gfcc_weight
-    wavlm_variance = wavlm_variance.cpu().numpy().flatten()
-    
-    combined_feature = np.concatenate([weighted_wavlm, weighted_cqt, weighted_gfcc, wavlm_variance])
-
+    weighted_wavlm = wavlm_norm * wavlm_weight
+    weighted_cqt = cqt_norm * cqt_weight
+    weighted_gfcc = gfcc_norm * gfcc_weight
+    combined_feature = np.concatenate([weighted_wavlm, weighted_cqt, weighted_gfcc, wavlm_uncertainty_np])
     selected_features = selector.transform(combined_feature.reshape(1, -1))
-
+    
     spoof_probability = calibrated_model.predict_proba(selected_features)[0, 1]
-    prediction = 1 if spoof_probability >= best_threshold else 0
-
+    prediction = "Spoof" if spoof_probability > best_threshold else "Bonafide"
+    
     return prediction, float(spoof_probability)
-

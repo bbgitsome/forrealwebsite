@@ -44,7 +44,7 @@ def predict_baseline(audio_path, xgb_model):
 
     prediction_proba = xgb_model.predict_proba(combined_features)[0]
     spoof_probability = prediction_proba[1]
-    prediction = 1 if spoof_probability > 0.5 else 0
+    prediction = "Spoof" if spoof_probability > 0.1 else "Bonafide"
 
     feature_importances = xgb_model.feature_importances_
     

@@ -24,7 +24,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 # Dinedefine ang variable galing sa load model functions
-wavlm_model, calibrated_model, selector, processor, device = load_for_real_model()
+wavlm_model, processor, calibrated_model, selector, device = load_for_real_model()
 xgb_model = load_baseline_model()
 
 # Global variable to store selected model; for_real as default
@@ -71,11 +71,13 @@ def predict_audio():
         # Select the appropriate model based on the user choice
         if selected_model == 'proposed':
             print("Running For Real model...")
-            prediction, spoof_probability = predict_for_real(audio_path, wavlm_model, calibrated_model, selector, processor, device)
+            print(f"Device: {device}")
+            prediction, spoof_probability = predict_for_real(audio_path, wavlm_model, processor, calibrated_model, selector, device)
             print(f"Audio path: {audio_path}")
             
         elif selected_model == 'baseline':
             print("Running Baseline model...")
+            print(f"Device: {device}")
             prediction, spoof_probability = predict_baseline(audio_path, xgb_model)
             print(f"Audio path: {audio_path}")
             
@@ -86,7 +88,7 @@ def predict_audio():
         result = {
             'model': selected_model,
             'audio': audio_path,
-            'prediction': 'Spoof' if prediction == 1 else 'Bonafide',
+            'prediction': prediction,
             'probability': spoof_probability
         }
 
