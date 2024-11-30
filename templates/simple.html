@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="static/css/simple.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Real Simple Mode</title>
+  </head>
+  <body>
+    <div class="background-container">
+      <!-- Setting Toggle Button -->
+      <div class="settings-container">
+        <button class="settings-button">
+          <svg
+            id="Settings_24"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <g transform="matrix(0.43 0 0 0.43 12 12)">
+              <path
+                class="gear-set"
+                transform=" translate(-25, -25)"
+                d="M 47.16 21.221 L 41.25 20.255 C 40.904 19.069 40.431 17.929 39.839 16.849999999999998 L 43.289 11.932999999999998 C 43.568000000000005 11.535999999999998 43.52 10.994999999999997 43.177 10.650999999999998 L 39.288 6.763999999999998 C 38.940999999999995 6.4179999999999975 38.394999999999996 6.3729999999999976 37.997 6.6599999999999975 L 33.153999999999996 10.140999999999998 C 32.065 9.538999999999998 30.914999999999996 9.060999999999998 29.721999999999998 8.713999999999999 L 28.691 2.8279999999999985 C 28.607 2.35 28.192 2 27.706 2 L 22.206 2 C 21.716 2 21.298 2.355 21.219 2.839 L 20.263 8.693 C 19.063000000000002 9.038 17.911 9.511 16.826 10.105 L 11.996 6.655 C 11.597000000000001 6.37 11.054 6.416 10.707 6.761 L 6.82 10.648 C 6.477 10.991 6.429 11.530999999999999 6.708 11.927999999999999 L 10.107 16.791 C 9.501999999999999 17.886 9.02 19.045 8.668999999999999 20.251 L 2.8379999999999983 21.222 C 2.355999999999998 21.302 2.0019999999999984 21.720000000000002 2.0019999999999984 22.208000000000002 L 2.0019999999999984 27.708000000000002 C 2.0019999999999984 28.193 2.3499999999999983 28.608 2.826999999999998 28.693 L 8.657999999999998 29.727 C 9.006999999999998 30.93 9.488999999999997 32.089 10.095999999999998 33.187 L 6.6549999999999985 38 C 6.370999999999999 38.397 6.415999999999999 38.942 6.760999999999998 39.289 L 10.648999999999997 43.18 C 10.991999999999997 43.523 11.532999999999998 43.571 11.929999999999998 43.292 L 16.799999999999997 39.881 C 17.892999999999997 40.482 19.048 40.959 20.244999999999997 41.305 L 21.220999999999997 47.166 C 21.3 47.647 21.717 48 22.206 48 L 27.706 48 C 28.191 48 28.605999999999998 47.652 28.689999999999998 47.175 L 29.735 41.285 C 30.934 40.931999999999995 32.083 40.452 33.165 39.849999999999994 L 38.07 43.291 C 38.468 43.571999999999996 39.008 43.522999999999996 39.352000000000004 43.18 L 43.24 39.289 C 43.586 38.942 43.631 38.395 43.344 37.997 L 39.846000000000004 33.14 C 40.43900000000001 32.06 40.910000000000004 30.918 41.253 29.732 L 47.171 28.692999999999998 C 47.65 28.608999999999998 47.998 28.192999999999998 47.998 27.708 L 47.998 22.208 C 47.999 21.718 47.644 21.3 47.16 21.221 z M 25 32 C 21.134 32 18 28.866 18 25 C 18 21.134 21.134 18 25 18 C 28.866 18 32 21.134 32 25 C 32 28.866 28.866 32 25 32 z"
+                stroke-linecap="round"
+              />
+            </g>
+          </svg>
+        </button>
+        <div class="popup">
+          <div class="toggle-container2">
+            <span>Simple Mode</span>
+            <label class="toggle">
+              <input type="checkbox" id="simpleMode" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-container2">
+            <span>Dark Mode</span>
+            <label class="toggle">
+              <input type="checkbox" id="darkMode" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Logo -->
+      <div class="logoFR" style="display: block">FOR<br />REAL</div>
+      <!-- Switch model -->
+      <div class="toggle-container">
+        <div class="toggle-circle"></div>
+        <span class="toggle-text">Hybrid</span>
+      </div>
+      <div class="container-position">
+        <div class="upload-container" id="upload-area" style="display: block">
+          <div class="upload-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"
+              />
+            </svg>
+          </div>
+          <div class="upload-text">Drag and drop audio files to upload</div>
+          <div class="supported-files">Supported Files: .wav, .flac, .mp3</div>
+          <input
+            type="file"
+            id="file-input"
+            accept=".wav,.flac,.mp3"
+            multiple
+          />
+          <button
+            class="select-button"
+            onclick="document.getElementById('file-input').click()"
+          >
+            Select Files
+          </button>
+        </div>
+        <div class="analyze-part" style="display: none">
+          <div class="analyze-container">
+            <div class="audio-list" id="audio-list"></div>
+          </div>
+          <div class="center-container">
+            <button class="analyze-btn">Analyze</button>
+          </div>
+        </div>
+        <div class="result-part" style="display: none">
+          <div class="result-container">
+            <div class="audio-list2" id="audio-list2"></div>
+          </div>
+          <div class="center-container">
+            <button class="again-btn" onclick="location.reload()">
+              Upload Again
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="loading-container" style="display: none">
+        <div class="loading-iconn">
+          <svg
+            id="Arrows_Synchronize_24"
+            width="144"
+            height="144"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <rect
+              width="24"
+              height="24"
+              stroke="none"
+              fill="#000000"
+              opacity="0"
+            />
+
+            <g transform="matrix(1.43 0 0 1.43 12 12)">
+              <g style="">
+                <g transform="matrix(1 0 0 1 5.25 2.5)" class="loadSvg">
+                  <path
+                    style="
+                      stroke-width: 1.2;
+                      stroke-dasharray: none;
+                      stroke-linecap: round;
+                      stroke-dashoffset: 0;
+                      stroke-linejoin: round;
+                      stroke-miterlimit: 4;
+                      fill: none;
+                      fill-rule: nonzero;
+                      opacity: 1;
+                    "
+                    transform=" translate(-12.25, -9.5)"
+                    d="M 11 9 L 13 8.5 L 13.5 10.5"
+                    stroke-linecap="round"
+                  />
+                </g>
+                <g transform="matrix(1 0 0 1 0.18 3.75)" class="loadSvg">
+                  <path
+                    style="
+                      stroke-width: 1.2;
+                      stroke-dasharray: none;
+                      stroke-linecap: round;
+                      stroke-dashoffset: 0;
+                      stroke-linejoin: round;
+                      stroke-miterlimit: 4;
+                      fill: none;
+                      fill-rule: nonzero;
+                      opacity: 1;
+                    "
+                    transform=" translate(-7.18, -10.75)"
+                    d="M 13 8.5 C 12.5558 9.75861 11.749 10.8576 10.6813 11.6584 C 9.61353 12.4592 8.33262 12.926 6.99999 13 C 5.7681 13.0002 4.566 12.6213 3.55697 11.9146 C 2.54794 11.2079 1.78088 10.2078 1.35999 9.05"
+                    stroke-linecap="round"
+                  />
+                </g>
+                <g transform="matrix(1 0 0 1 -5.25 -2.5)" class="loadSvg">
+                  <path
+                    style="
+                      stroke-width: 1.2;
+                      stroke-dasharray: none;
+                      stroke-linecap: round;
+                      stroke-dashoffset: 0;
+                      stroke-linejoin: round;
+                      stroke-miterlimit: 4;
+                      fill: none;
+                      fill-rule: nonzero;
+                      opacity: 1;
+                    "
+                    transform=" translate(-1.75, -4.5)"
+                    d="M 3 5 L 1 5.5 L 0.5 3.5"
+                    stroke-linecap="round"
+                  />
+                </g>
+                <g transform="matrix(1 0 0 1 -0.18 -3.75)" class="loadSvg">
+                  <path
+                    style="
+                      stroke-width: 1.2;
+                      stroke-dasharray: none;
+                      stroke-linecap: round;
+                      stroke-dashoffset: 0;
+                      stroke-linejoin: round;
+                      stroke-miterlimit: 4;
+                      fill: none;
+                      fill-rule: nonzero;
+                      opacity: 1;
+                    "
+                    transform=" translate(-6.82, -3.25)"
+                    d="M 1 5.5 C 1.84 3.2 4.42 1 7 1 C 8.23789 1.00348 9.4444 1.38976 10.4541 2.10588 C 11.4639 2.822 12.2274 3.8329 12.64 5"
+                    stroke-linecap="round"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <button class="cancel-btn" onclick="location.reload()">Cancel</button>
+        <div class="progress-bar">
+          <div class="bar" id="progress-bar"></div>
+        </div>
+        <span id="progress-text">Processing Audio Files...</span>
+      </div>
+    </div>
+    <script>
+      // Store uploaded files to prevent duplicates
+      const uploadedFiles = new Set();
+
+      // Get DOM elements
+      const uploadArea = document.getElementById("upload-area");
+      const analyzePart = document.querySelector(".analyze-part");
+      const audioList = document.getElementById("audio-list");
+      const fileInput = document.getElementById("file-input");
+
+      function createAudioElement(file) {
+        const audioContainer = document.createElement("div");
+        audioContainer.className = "audio-container";
+
+        // Create audio content wrapper
+        const audioContent = document.createElement("div");
+        audioContent.className = "audio-content";
+
+        // Create audio info section
+        const audioInfo = document.createElement("div");
+        audioInfo.className = "audio-info";
+
+        // Add file name
+        const fileName = document.createElement("div");
+        fileName.className = "file-name";
+        fileName.textContent = file.name;
+
+        // Add duration
+        const duration = document.createElement("div");
+        duration.className = "duration";
+        duration.textContent = "0:00";
+
+        // Create controls section
+        const audioControls = document.createElement("div");
+        audioControls.className = "audio-controls";
+
+        // Add play button
+        const playBtn = document.createElement("button");
+        playBtn.className = "play-btn";
+        playBtn.innerHTML = `
+      <span class="play-text">Play</span>
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="currentColor" d="M8 5v14l11-7z"/>
+      </svg>
+    `;
+        // Add delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.innerHTML = `
+  <svg class="w-6 h-6 svg-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
+    <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
+  </svg>
+`;
+
+        // Create hidden audio element
+        const audio = document.createElement("audio");
+        audio.style.display = "none";
+        const source = URL.createObjectURL(file);
+        audio.src = source;
+
+        // Update duration when metadata is loaded
+        audio.addEventListener("loadedmetadata", () => {
+          const minutes = Math.floor(audio.duration / 60);
+          const seconds = Math.floor(audio.duration % 60);
+          duration.textContent = `Duration - ${minutes}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
+        });
+
+        // Handle play button click
+        playBtn.onclick = () => {
+          if (audio.paused) {
+            audio.play();
+            playBtn.innerHTML = `
+  <span class="play-text">Pause</span>
+  <svg viewBox="0 0 24 24" width="24" height="24">
+    <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+  </svg>
+`;
+          } else {
+            audio.pause();
+            playBtn.innerHTML = `
+      <span class="play-text">Play</span>
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="currentColor" d="M8 5v14l11-7z"/>
+      </svg>
+    `;
+          }
+        };
+
+        // Handle delete button click
+        deleteBtn.onclick = () => {
+          audioContainer.remove();
+          URL.revokeObjectURL(source);
+          uploadedFiles.delete(file.name);
+
+          // If no more audio files, show upload container again
+          if (audioList.children.length === 0) {
+            analyzePart.style.display = "none";
+            uploadArea.style.display = "block";
+          }
+        };
+
+        // Assemble the elements
+        audioInfo.appendChild(fileName);
+        audioInfo.appendChild(duration);
+        audioControls.appendChild(playBtn);
+        audioControls.appendChild(deleteBtn);
+        audioContent.appendChild(audioInfo);
+        audioContent.appendChild(audioControls);
+        audioContainer.appendChild(audioContent);
+        audioContainer.appendChild(audio);
+
+        return audioContainer;
+      }
+
+      // Handle file upload
+      function handleFiles(files) {
+        let hasNewFiles = false;
+
+        for (const file of files) {
+          if (!uploadedFiles.has(file.name)) {
+            uploadedFiles.add(file.name);
+            const audioElement = createAudioElement(file);
+            audioList.appendChild(audioElement);
+            hasNewFiles = true;
+          }
+        }
+
+        if (hasNewFiles) {
+          uploadArea.style.display = "none";
+          analyzePart.style.display = "block";
+        }
+      }
+
+      // File input change handler
+      fileInput.addEventListener("change", (e) => {
+        handleFiles(e.target.files);
+        fileInput.value = ""; // Reset input
+      });
+
+      // Drag and drop handlers
+      uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadArea.classList.add("dragover");
+      });
+
+      uploadArea.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadArea.classList.remove("dragover");
+      });
+
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadArea.classList.remove("dragover");
+        handleFiles(e.dataTransfer.files);
+      });
+
+      // Analyze button event listener
+      document.querySelector(".analyze-btn").addEventListener("click", async () => {
+        // Hide analyze part
+        document.querySelector(".analyze-part").style.display = "none";
+
+        // Show loading container
+        const loadingContainer = document.querySelector(".loading-container");
+        loadingContainer.style.display = "block";
+
+        // Hide model toggle when loading starts
+        const toggleContainer = document.querySelector('.toggle-container');
+        if (toggleContainer) {
+            toggleContainer.style.display = 'none';
+        }
+
+        // Start loading animation
+        const progressBar = document.getElementById("progress-bar");
+        const progressText = document.getElementById("progress-text");
+        let progress = 0;
+        let intervalId;
+
+        function updateProgress() {
+            if (progress < 80) {  // Only go up to 90% until prediction is complete
+                progress += 20;  // Increased from 10 to 20 for faster progress
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `Processing Audio Files... ${progress}%`;
+            }
+        }
+
+        // Set interval to update progress more frequently
+        intervalId = setInterval(updateProgress, 200);  // Decreased from 1000 to 200ms
+
+        try {
+            const formData = new FormData();
+            // Get audio containers from the correct location
+            const audioContainers = document.querySelectorAll("#audio-list .audio-container");
+            
+            // Add each file to formData
+            for (const container of audioContainers) {
+                const audio = container.querySelector("audio");
+                const fileName = container.querySelector(".file-name").textContent;
+                
+                // Get the file from the audio element's src
+                const response = await fetch(audio.src);
+                const blob = await response.blob();
+                formData.append("files[]", blob, fileName);
+            }
+
+            // Get current model type
+            const modelType = document.querySelector(".toggle-text").textContent;
+            const headers = {
+                'Model-Type': modelType.toLowerCase() === 'hybrid' ? 'proposed' : 'baseline'
+            };
+
+            // Send to backend
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: headers,
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Get the results
+            const results = await response.json();
+
+            // Complete the progress bar
+            clearInterval(intervalId);
+            progress = 100;
+            progressBar.style.width = "100%";
+            progressText.textContent = "Processing Audio Files... 100%";
+
+            // Add a small delay before showing results to ensure animation is visible
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            // Hide loading container
+            loadingContainer.style.display = "none";
+
+            // Show results
+            document.querySelector(".result-part").style.display = "block";
+
+            // Clear previous results
+            const audioList2 = document.getElementById("audio-list2");
+            audioList2.innerHTML = "";
+
+            // Create result elements
+            Object.entries(results).forEach(([audioPath, result]) => {
+                if (audioPath !== 'message') {
+                    const fileName = audioPath.split('/').pop();
+                    const resultContainer = document.createElement("div");
+                    resultContainer.className = "audio-container result-item";
+
+                    // Find the original container
+                    const originalContainer = Array.from(document.querySelectorAll("#audio-list .audio-container"))
+                        .find(container => container.querySelector(".file-name").textContent === fileName);
+                    
+                    // Get duration from original container
+                    const duration = originalContainer ? 
+                        originalContainer.querySelector(".duration").textContent : 
+                        "Duration - 0:00";
+
+                    resultContainer.innerHTML = `
+                        <div class="audio-content">
+                            <div class="audio-info">
+                                <div class="file-name">${fileName}</div>
+                                <!-- <div class="duration">${duration}</div> -->
+                            </div>
+                            <div class="audio-controls">
+                                <div class="prediction-indicator ${result.prediction.toLowerCase()}">
+                                    ${result.prediction.toLowerCase() === 'bonafide' ? 
+                                        // Bonafide SVG (checkmark)
+                                        `<svg class="prediction-icon" id='Checkmark_24' width='24' height='24' viewBox='0 0 24 24'>
+                                            <rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                                            <g transform="matrix(0.04 0 0 0.04 12 12)" >
+                                                <g style="" >
+                                                    <g transform="matrix(1 0 0 1 0 0)" class="prediction-icon-color">
+                                                        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;" transform=" translate(-256, -256)" d="M 504.1 256 C 504.1 119 393 7.9 256 7.9 C 119 7.9 7.9 119 7.9 256 C 7.9 393 119 504.1 256 504.1 C 393 504.1 504.1 393 504.1 256 z" stroke-linecap="round" />
+                                                    </g>
+                                                    <g transform="matrix(1 0 0 1 -0.01 0.09)" class="prediction-icon-color2">
+                                                        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;" transform=" translate(-255.99, -256.09)" d="M 392.6 172.9 C 386.8 157.8 374.90000000000003 160.20000000000002 362 162.8 C 354.3 164.4 320 174.4 265.9 231.60000000000002 C 243.39999999999998 255.3 228.59999999999997 274.20000000000005 218.79999999999998 288.6 C 212.79999999999998 281.3 205.99999999999997 273.40000000000003 198.79999999999998 266.3 C 176.7 244.2 152 229 151 228.4 C 140.7 222.1 127.2 225.3 120.8 235.70000000000002 C 114.5 246.00000000000003 117.7 259.5 128 265.90000000000003 C 128.2 266.00000000000006 149.4 279.1 167.6 297.40000000000003 C 186.2 316.00000000000006 203.1 341.20000000000005 203.3 341.50000000000006 C 207.4 347.70000000000005 214.3 351.30000000000007 221.60000000000002 351.30000000000007 C 222.8 351.30000000000007 224.10000000000002 351.20000000000005 225.40000000000003 351.00000000000006 C 234.00000000000003 349.50000000000006 240.80000000000004 343.1000000000001 242.90000000000003 334.70000000000005 C 243.00000000000003 334.50000000000006 251.70000000000005 310.40000000000003 297.6 262.00000000000006 C 334.6 222.90000000000006 359.3 210.50000000000006 367.90000000000003 207.10000000000005 C 368.00000000000006 207.10000000000005 368.00000000000006 207.10000000000005 368.20000000000005 207.10000000000005 C 368.20000000000005 207.10000000000005 368.50000000000006 207.00000000000006 369.00000000000006 206.70000000000005 C 370.50000000000006 206.10000000000005 371.30000000000007 205.90000000000003 371.30000000000007 205.90000000000003 C 370.9000000000001 206.00000000000003 370.70000000000005 206.00000000000003 370.70000000000005 206.00000000000003 L 370.70000000000005 205.90000000000003 C 374.70000000000005 204.20000000000005 382.1 201.00000000000003 382.20000000000005 200.90000000000003 C 393.3 196.1 397 184.1 392.6 172.9 z" stroke-linecap="round" />
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>` : 
+                                        // Spoof SVG (warning)
+                                        `<svg class="prediction-icon" id='Road_Sign_Warning_24' width='24' height='24' viewBox='0 0 24 24'>
+                                            <rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                                            <g transform="matrix(0.83 0 0 0.83 12 12)" >
+                                                <path class="prediction-icon-color" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;" transform=" translate(-11.99, -12)" d="M 23.25 23.23 C 23.51226105011294 23.22883866933708 23.754865096079282 23.09076836964539 23.88979861607832 22.86587916964699 C 24.024732136077358 22.640989969648594 24.032392261232925 22.361953317470437 23.91 22.13 L 12.66 1.129999999999999 C 12.517186401469406 0.9032529587221613 12.267973776055626 0.7656921938165293 12 0.7656921938165293 C 11.732026223944374 0.7656921938165293 11.482813598530592 0.9032529587221615 11.34 1.1299999999999992 L 0.09 22.13 C -0.044286254797211266 22.35839018197667 -0.04428625479721146 22.641609818023326 0.08999999999999989 22.869999999999997 C 0.22306112241707074 23.096370696347005 0.4674467152198065 23.233837592298542 0.7299999999999999 23.229999999999997 Z M 12 20.48 C 11.391498229335507 20.479945908581392 10.843321039582088 20.112280762331384 10.61237031136203 19.549309920313497 C 10.381419583141971 18.986339078295607 10.51346168707555 18.339623705104444 10.946615418588898 17.91224535667794 C 11.379769150102248 17.484867008251435 12.02819856329998 17.36151715120637 12.588018821645514 17.600003390167124 C 13.147839079991048 17.838489629127878 13.50811335457008 18.391552318349945 13.5 19 C 13.48905761550292 19.820606128015704 12.820679077224067 20.480072952450836 12 20.48 Z M 12 8.23 C 12.552284749830793 8.23 13 8.677715250169207 13 9.23 L 13 14.7 C 13 15.252284749830793 12.552284749830793 15.7 12 15.7 C 11.447715250169207 15.7 11 15.252284749830793 11 14.7 L 11 9.23 C 11 8.677715250169207 11.447715250169207 8.23 12 8.23 Z" stroke-linecap="round" />
+                                            </g>
+                                        </svg>`
+                                    }
+                                    <span class="prediction-text">${result.prediction.toUpperCase()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Create and add the audio element
+                    const audio = document.createElement("audio");
+                    audio.style.display = "none";
+                    if (originalContainer) {
+                        audio.src = originalContainer.querySelector("audio").src;
+                    }
+                    resultContainer.appendChild(audio);
+
+                    audioList2.appendChild(resultContainer);
+                }
+            });
+
+        } catch (error) {
+            clearInterval(intervalId);
+            console.error('Error:', error);
+            alert('An error occurred while processing the audio files.');
+            loadingContainer.style.display = "none";
+            document.querySelector(".analyze-part").style.display = "block";
+        }
+      });
+
+      //SWITCH MODEL PART
+      const toggleContainer = document.querySelector(".toggle-container");
+      const toggleText = document.querySelector(".toggle-text");
+
+      toggleContainer.addEventListener("click", () => {
+        toggleContainer.classList.toggle("active2");
+        if (toggleContainer.classList.contains("active2")) {
+          toggleText.textContent = "HC";
+        } else {
+          toggleText.textContent = "Hybrid";
+        }
+      });
+
+      const settingsButton = document.querySelector(".settings-button");
+      const popup = document.querySelector(".popup");
+      const darkModeToggle = document.getElementById("darkMode");
+      const simpleModeToggle = document.getElementById("simpleMode");
+
+      // Toggle popup
+      settingsButton.addEventListener("click", () => {
+        popup.classList.toggle("show");
+      });
+
+      // Close popup when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!popup.contains(e.target) && !settingsButton.contains(e.target)) {
+          popup.classList.remove("show");
+        }
+      });
+
+      // Dark mode toggle
+      darkModeToggle.addEventListener("change", () => {
+        if (darkModeToggle.checked) {
+          document.documentElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.documentElement.removeAttribute("data-theme");
+          localStorage.setItem("theme", "light");
+        }
+      });
+
+      // Check for saved theme preference
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          darkModeToggle.checked = true;
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+
+        // Check if coming back from simple mode
+        const isSimpleMode = localStorage.getItem("simpleMode") === "true";
+        if (isSimpleMode) {
+          simpleModeToggle.checked = true;
+        }
+      });
+
+      // Simple mode toggle
+      simpleModeToggle.addEventListener("change", () => {
+        // Store the state in session storage
+        sessionStorage.setItem('simpleMode', simpleModeToggle.checked);
+        
+        if (!simpleModeToggle.checked) {
+            window.location.href = "/";  // Use route instead of direct file path
+        }
+      });
+
+      // Check stored state when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        // Set simple mode toggle to checked in simple.html
+        if (simpleModeToggle) {
+            simpleModeToggle.checked = true;
+            sessionStorage.setItem('simpleMode', 'true');
+        }
+      });
+
+      document.querySelector(".cancel-btn").onclick = async () => {
+        try {
+            // Send termination request
+            await fetch('/terminate', {
+                method: 'POST',
+            });
+            
+            // Wait a brief moment for termination to process
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            // Reload the page
+            location.reload();
+        } catch (error) {
+            console.error('Error terminating prediction:', error);
+            location.reload();
+        }
+      };
+    </script>
+  </body>
+</html>

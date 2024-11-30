@@ -5,19 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../static/css/styles.css" />
         <link href="https://fonts.cdnfonts.com/css/death-font" rel="stylesheet">
+        <link rel="stylesheet" href="../static/css/mobilecss/mobile.css" />
         <link href="https://db.onlinewebfonts.com/c/a3cd6762eede2ec51f8999878ddc0b1e?family=CCSoliloquous+W00+Regular+V1" rel="stylesheet">
         <link href="https://db.onlinewebfonts.com/c/3d73cd0279f4c3db9b4f7db0305164f6?family=RansomNote" rel="stylesheet">
         <link href="https://fonts.cdnfonts.com/css/death-note-font" rel="stylesheet">
+        <link href="https://db.onlinewebfonts.com/c/45ffe437a09fd50c32fa30c779e77e9d?family=Germania+One" rel="stylesheet"> 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <title>For Real?</title>
     </head>
     <div>
-        <div class="background-container">
+        <div class="background-container" id="background-container" style="background-image: url('../static/images/newBG.png');">            
             <div class="inputContainer">
+                <div class="FRBigLogo" id="animatedContainerL">
+                    <img src="../static/images/LOGO.png">
+                </div>
                 <div class="container" id="animatedContainer">
                     <div class="dot"></div>
                     <div class="light-beam"></div>
-                    <div class="upload-box">
+                    <div class="upload-box" id="upload-box" style="background-image: url('../static/images/swing.png');">                        
                         <div class="upload-section">
                             <div class="content">
                                 <div class="box">
@@ -33,6 +38,7 @@
                                         type="file"
                                         id="file-input"
                                         accept="audio/*"
+                                        multiple
                                         onchange="handleFileUpload(this.files)"
                                         style="display: none"
                                     />
@@ -42,331 +48,1139 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Animation loading -->
-                        <div id="loading" class="loading" style="display: none">
-                            <div class="loader">
-                                <div class="bar1"></div>
-                                <div class="bar2"></div>
-                                <div class="bar3"></div>
-                                <div class="bar4"></div>
-                                <div class="bar5"></div>
-                                <div class="bar6"></div>
-                            </div>
-                        </div>
                     </div>
                 </div>
+        
+                <!-- AUDIO LIST PART (can play and delete audio) -->
                 <div class="containerP" id="animatedContainerP" style="display: none;">
-                    <div class="dot1"></div>
+                <div class="dot1"></div>
                     <div class="light-beam"></div>
-                    <div class="predict-box">
+                    <div class="predict-box" id="predict-box" style="background-image: url('../static/images/swing.png');">                        
                         <div class="predict-section">
                             <div class="contentP">
-                                <div class="box">
-                                </div>
-                                <img class="imageBasedOnModel" id="prediction-image" src="../static/images/propose.png">
-                                <p id="prediction-percentage">
-                                    <span id="prediction-label"></span>
-                                    <!-- Bonafide or Deepfake prediction -->
-                                </p>
-                                <div class="prediction-text">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204 51" width="204" height="51" style="cursor: pointer;">
-                                        <rect id="colorRect" x="0" y="0" width="204" height="51" rx="25.5" ry="25.5" fill="#BE0500" />
-                                        <text x="102" y="31.45" font-family="Fontsona5JP" font-size="15" fill="white" text-anchor="middle">More Information</text>
-                                    </svg>
-
-                                    <!-- Change Color when deepfake: #ef4444 and bonafide: #4CAF50 dun sa fill part -->
-                                </div>
-                                <img
-                                    src="../static/images/reupload.png"
-                                    id="reupload-button"
-                                    class="reuploadBtn"
-                                    alt="Reupload Button"
-                                    onclick="handleReupload()"
-                                />
-                            </div>
-                            <!-- YUNG DITO SA PART NATO YUNG BAGONG POP UP SA JS SA BABA MO SYA MAKIKITA -->
-                            <div class="popUpMoreInfo">
-                                <div class="containerM">
-                                    <div class="close-btn">x</div>
-                                    <div class="text-container">
-                                        <div class="label">Our Threshold : <span id="thresholdValue"></span></div>
-                                        <div class="label" id="probability">Probability : 0.00</div>
-                                        <div class="result" id="result"></div>
+                                <div class="prediction-box">
+                                    <div class="audio-list" id="audio-list">
+                                        <div class="audio-container">
+                                            <!-- Audio items will be dynamically added here -->
+                                        </div>
                                     </div>
-                                    <div class="progress-container">
-                                        <div class="progress-bar" id="progressBar"></div>
-                                        <div class="threshold-line" id="thresholdLine"></div>
-                                    </div>
+                                    <button class="arrwBtn4" id="toggleButton4">
+                                        <img src="../static/images/arrwd.png" alt="Toggle Arrow" />
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Analysis Part beside the Audio list (when ContainerP is showing kasama ren to sa makikita) -->
+                <div class="containerA" id="animatedContainerA" style="display: none;">
+                    <div class="PredictionText">
+                        <div class="PredictBox1">
+                            <img id="img1" src="../static/images/analyze.png">
+                        </div>
+                        <div class="PredictBox2">
+                            <img id="img2" src="../static/images/yes.png">
+                        </div>
+                        <div class="PredictBox3" onclick="location.reload()">
+                            <img id="img3" src="../static/images/No.png">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MORE INFO PART -->
                 <div class="containerI" id="animatedContainerI" style="display: none;">
-                    <div class="dot1"></div>
-                    <div class="light-beam"></div>
-                    <div class="info-box">
-                        <div class="info-section">
-                            <div class="contentI">
-                                <div class="box">
-                                    <p class="info-title">INFORMATION</p>
-                                    <p class="info-text">"For Real?" Audio DeepFake Detection system uses a combination of CQT, GFCC, and WavLM. Features together with an XGBoost Classifier trained on ASVspoof2019 LA training Dataset.</p>
-                                    <p class="info-title">DISCLAIMER</p>
-                                    <p class="info-text">While we strive to provide accurate results, the system is not guaranteed to be 100% correct in all cases. Audio deepfakse are evolving and the system's predictions may vary based on numerous factors, including the quality of the audio and the presence of the real-world noise. </p>
-                                </div>
-                            </div>
+                    <div class="info-box" id="info-box" style="background-image: url('../static/images/infoBG.png');">                      <div class="textContent">
+                        <img class="imgLogo" src="../static/images/FORREAL.png" alt="FOR REAL" />
+                        <p id="text1" class="active">
+                            While we strive to provide accurate results, the system is
+                            guaranteed to be 100% correct in all cases. Audio deepfakes are
+                            evolving, and the system's predictions may vary based on
+                            numerous factors, including the quality of the audio and the
+                            presence of real-world noise.
+                        </p>
+                        <p id="text2">
+                            "For Real?" Audio Deepfake Detection system uses a combination
+                            of CQT, GFCC, and WavLM Features together with an XGBoost
+                            Classifier Trained on ASVspoof 2019 LA training Dataset.
+                        </p>
+                        <button class="arrwBtn" id="toggleButton">
+                            <img src="../static/images/arrwd.png" alt="Toggle Arrow" />
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="viewInfo"><a class="arrow arrow-right" title="Model Information"></a>
-                </div>
-                <!-- SWITCH MODEL STRUCTURE -->
-                <div id="info-button-container">
-                    <button id="info-button">i</button>
-                    <div id="switch-model-container" style="display: none;">
-                        <span id="switch-model-title">Switch Model</span>
-                        <div id="switch-model-options">
-                            <span class="model opt">Proposed</span>
-                            <label class="switch">
-                                <input type="checkbox" id="model-switch">
-                                <span class="slider"></span>
-                            </label>
-                            <span class="model opt">Baseline</span>
+
+                <!-- SHOW CARD PART -->
+                <div class="containerC" id="animatedContainerC" style="display: none;">
+                    <div class="preCardAnimation">
+                        <img class="deck" src="../static/images/deck.png" />
+                    </div>
+                    <div class="cardSpacing">
+                        <div class="cardAnimation">
+                            <!-- Dynamic card rows will be inserted here -->
+                            <div class="card-row" id="first-row"></div>
+                            <div class="card-row" id="second-row"></div>
                         </div>
                     </div>
+                    <div class="buttonSpacing">
+                        <div class="homeBtn" onclick="location.reload()">Home</div>
+                        <div class="summaryBtn">Summary</div>
+                    </div>
                 </div>
-            </div>
-            <div id="transition-overlay"></div>
-        </div>
-    </body>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const container = document.getElementById("animatedContainer");
-                const containerP = document.getElementById("animatedContainerP");
-                const containerI = document.getElementById("animatedContainerI");
-                const fileInput = document.getElementById("file-input");
-                const fileInfo = document.getElementById("file-info");
-                const fileNameDisplay = document.getElementById("file-name");
-                const viewInfoButton = document.querySelector(".viewInfo");
-                const arrow = viewInfoButton.querySelector(".arrow");
-                const loading = document.getElementById("loading");
-                const uploadButton = document.getElementById("upload-button");
-                const uploadBox = document.querySelector(".upload-box");
-                const overlay = document.getElementById('transition-overlay');
 
-                let currentContainer = container;
-                
-                let selectedModel = sessionStorage.getItem('selectedModel') || 'proposed';
-                
-                // SWITCH MODEL
-                const infoButton = document.getElementById('info-button');
-                const switchModelContainer = document.getElementById('switch-model-container');
-                const modelSwitch = document.getElementById('model-switch');
+                <!-- SUMMARY POP UP -->
+                <div class="containerSummary" style="display: none;">
+                    <img src="../static/images/CloseBtn.png" class="sumClsBtn" />
+                    <div class="SpredictContainer" id="summary-container">
+                        <!-- Dynamic summary cards will be inserted here -->
+                    </div>
+                    <button class="arrwBtn3" id="toggleButton3">
+                        <img src="../static/images/arrwd.png" alt="Toggle Arrow" />
+                    </button>
+                </div>
 
-                infoButton.addEventListener('click', () => {
-                    if (switchModelContainer.style.display === 'none') {
-                        switchModelContainer.style.display = 'block';
-                    } else {
-                        switchModelContainer.style.display = 'none';
-                    }
-                });
+                <!-- VIEW INFO (ARROW RIGHT in the left side of the screen) -->
+                <div class="viewInfo" style="display: block;">
+                    <a class="arrow arrow-right" title="Model Information"></a>
+                </div>
 
-                // Hide the switch model container when clicking outside of it
-                document.addEventListener('click', (event) => {
-                    // Check if the click is outside the switch model container
-                    if (!switchModelContainer.contains(event.target) && event.target !== infoButton) {
-                        switchModelContainer.style.display = 'none';
-                    }
-                });
-
-                // Set session storage for user's model choice
-                modelSwitch.addEventListener('change', () => {
-                    selectedModel = modelSwitch.checked ? 'baseline' : 'proposed';
-                    console.log('Model switched:', selectedModel);
+                <!-- More Info when the card is click part -->
+                <div class="containerMI" id="containerMI">
+                    <img src="../static/images/CloseBtn.png" class="closeMI" />
+                    <img src="../static/images/B_info.png" class="changeMIbg" id="cardinfo"/>
+                    <div class="MItextPosition">
+                        <div class="MItext1">
+                            <!-- PAPALITAN YUNG MGA INFO DEPENDE SA PREDICTION -->
+                            <h1 class="MIfilename">Filename.mp3</h1>
+                            <div class="MIcontent1">
+                            <h2>Prediction</h2>
+                            <h3>Bonafide</h3>
+                            <h2>Probability</h2>
+                            <h3>0.10</h3>
+                            <h2>Model Type</h2>
+                            <h3>Hybrid</h3>
+                        </div>
+                        <div class="MIcontent2 hidden">
+                            <!-- MAPAPALITAN YUNG TEXT CONTENT DEPENDE SA PREDICTION AT SA MODEL NA GAMIT -->
+                            <h4>
+                            A prediction of “Bonafide” means that this audio is more likely to
+                            be genuine. The class is determined by a
+                            <span class="clickable-threshold">custom threshold</span>.
+                            </h4>
+                            <!-- ITO PAG SPOOF -->
+                            <!-- <h4>
+                            A prediction of “Spoof” means that this audio is more likely to be 
+                            AI Generated. The class is determined by a 
+                            <span class="clickable-threshold">custom threshold</span>.
+                            </h4> -->
+                        
+                            <h4>
+                            Probability pertains to the chance that the audio is deepfake.
+                            </h4>
+                            <!-- ito pipili depende kung HYbrid or HC yung gamit na model -->
+                            <h4>“Hybrid Model” uses Handcrafted and WavLM Features.</h4>
+                            <!-- <h4>“HC Model” uses only HandcraftedFeatures.</h4> -->
+                        </div>
+                        </div>
+                        <button class="arrwBtn2" id="toggleButton2">
+                        <img src="../static/images/arrwd.png" alt="Toggle Arrow" />
+                        </button>
+                    </div>
+                    <div class="CustomThreshold" style="display: none;">
+                        <img src="../static/images/ThresHybrid.png" class="threshold"/>
+                        <!-- <img src="../static/images/thresHC.png" /> -->
+                        <!-- Pag HC yung model ito yung pop up na threshold -->
+                    </div>
                     
-                    sessionStorage.setItem('selectedModel', selectedModel);
-                });
+                </div>
 
-                // MORE INFO ABOUT MODEL OUTPUT
-                const progressBar = document.getElementById("progressBar");
-                const probabilityDisplay = document.getElementById("probability");
-                const resultDisplay = document.getElementById("result");
-                const thresholdDisplay = document.getElementById("thresholdValue");
-                const thresholdLine = document.getElementById("thresholdLine");
-                const threshold = 0.57;
-
-                function updateUI(prob, model) {
-
-                    let threshold = model === 'proposed' ? 0.57 : 0.10;
-
-                    // Update the displayed threshold value
-                    thresholdDisplay.textContent = threshold.toFixed(2);
-
-                    progressBar.style.height = `${prob * 100}%`;
-                    progressBar.style.backgroundColor =
-                        prob >= threshold ? "#FF4136" : "#4CAF50";
-                    probabilityDisplay.textContent = `Probability : ${prob.toFixed(2)}`;
-                    resultDisplay.textContent =
-                        prob >= threshold
-                            ? "Your Audio is more likely to be a deepfake audio"
-                            : "Your Audio is more likely to be a bonafide audio";
-
-                    // Adjust the threshold line position based on the selected model threshold
-                    thresholdLine.style.bottom = `${threshold * 100}%`;
-
-                    // Change the rect color based on the prediction result
-                    const rectElement = document.getElementById("colorRect");
-                    rectElement.setAttribute("fill", prob >= threshold ? "#ef4444" : "#4CAF50");
-                }
-
-                function updatePredictionUI(model, prediction) {
-                    const predictionImage = document.getElementById("prediction-image");
-
-                    // Logic to update the image based on model and prediction
-                    if (model === 'proposed') {
-                        if (prediction === 'Spoof') {
-                            predictionImage.src = "../static/images/propose.png";
-                        } else if (prediction === 'Bonafide') {
-                            predictionImage.src = "../static/images/proposeBonafide.png";
-                        }
-                    } else if (model === 'baseline') {
-                        if (prediction === 'Spoof') {
-                            predictionImage.src = "../static/images/base.png";
-                        } else if (prediction === 'Bonafide') {
-                            predictionImage.src = "../static/images/baselineBonafide.png";
-                        }
-                    }
-                }
+                <!-- LOADING ANIMATION PART -->
+                <div class="containerAnimation" id="animatedContainerAnime" style="display: none;">
+                    <video class="transparent-video" autoplay loop muted playsinline>
+                        <source
+                        src="../static/images/cards-loading-loop.webm"
+                        type="video/webm"
+                        />
+                        Your browser does not support HTML5 video.
+                    </video>
+                </div>
                 
-                // Handle file upload
-                window.handleFileUpload = (files) => {
-                    if (files.length > 0) {
-                        const file = files[0];
-                        const fileName = file.name;
+            </div>
+            <!-- SWITCH MODEL -->
+            <div class="toggle-container">
+                <div class="toggle-circle">
+                    <img src="../static/images/HybridLogo.png"> 
+                </div>
+                <span class="toggle-text">Hybrid</span>
+            </div>
 
-                        // Allowed file types (WAV, MP3, FLAC)
-                        const allowedTypes = ['audio/wav', 'audio/x-wav', 'audio/mpeg', 'audio/flac'];
-                        const allowedExtensions = ['wav', 'mp3', 'flac'];
+        </div>
 
-                        const fileExtension = file.name.split('.').pop().toLowerCase();
+        <!-- Background blur effect -->
+        <div class="blur-background"></div>
 
-                        // Check MIME type and file extension
-                        if (!allowedTypes.includes(file.type) || !allowedExtensions.includes(fileExtension)) {
-                            alert('Invalid file type. Only WAV, MP3, or FLAC files are allowed.');
-                            return;
+        <!-- Setting Part -->
+        <div class="settings-container">
+            <button class="settings-button">
+                <svg
+                id="Settings_24"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                <g transform="matrix(0.43 0 0 0.43 12 12)">
+                    <path
+                    class="gear-set"
+                    transform=" translate(-25, -25)"
+                    d="M 47.16 21.221 L 41.25 20.255 C 40.904 19.069 40.431 17.929 39.839 16.849999999999998 L 43.289 11.932999999999998 C 43.568000000000005 11.535999999999998 43.52 10.994999999999997 43.177 10.650999999999998 L 39.288 6.763999999999998 C 38.940999999999995 6.4179999999999975 38.394999999999996 6.3729999999999976 37.997 6.6599999999999975 L 33.153999999999996 10.140999999999998 C 32.065 9.538999999999998 30.914999999999996 9.060999999999998 29.721999999999998 8.713999999999999 L 28.691 2.8279999999999985 C 28.607 2.35 28.192 2 27.706 2 L 22.206 2 C 21.716 2 21.298 2.355 21.219 2.839 L 20.263 8.693 C 19.063000000000002 9.038 17.911 9.511 16.826 10.105 L 11.996 6.655 C 11.597000000000001 6.37 11.054 6.416 10.707 6.761 L 6.82 10.648 C 6.477 10.991 6.429 11.530999999999999 6.708 11.927999999999999 L 10.107 16.791 C 9.501999999999999 17.886 9.02 19.045 8.668999999999999 20.251 L 2.8379999999999983 21.222 C 2.355999999999998 21.302 2.0019999999999984 21.720000000000002 2.0019999999999984 22.208000000000002 L 2.0019999999999984 27.708000000000002 C 2.0019999999999984 28.193 2.3499999999999983 28.608 2.826999999999998 28.693 L 8.657999999999998 29.727 C 9.006999999999998 30.93 9.488999999999997 32.089 10.095999999999998 33.187 L 6.6549999999999985 38 C 6.370999999999999 38.397 6.415999999999999 38.942 6.760999999999998 39.289 L 10.648999999999997 43.18 C 10.991999999999997 43.523 11.532999999999998 43.571 11.929999999999998 43.292 L 16.799999999999997 39.881 C 17.892999999999997 40.482 19.048 40.959 20.244999999999997 41.305 L 21.220999999999997 47.166 C 21.3 47.647 21.717 48 22.206 48 L 27.706 48 C 28.191 48 28.605999999999998 47.652 28.689999999999998 47.175 L 29.735 41.285 C 30.934 40.931999999999995 32.083 40.452 33.165 39.849999999999994 L 38.07 43.291 C 38.468 43.571999999999996 39.008 43.522999999999996 39.352000000000004 43.18 L 43.24 39.289 C 43.586 38.942 43.631 38.395 43.344 37.997 L 39.846000000000004 33.14 C 40.43900000000001 32.06 40.910000000000004 30.918 41.253 29.732 L 47.171 28.692999999999998 C 47.65 28.608999999999998 47.998 28.192999999999998 47.998 27.708 L 47.998 22.208 C 47.999 21.718 47.644 21.3 47.16 21.221 z M 25 32 C 21.134 32 18 28.866 18 25 C 18 21.134 21.134 18 25 18 C 28.866 18 32 21.134 32 25 C 32 28.866 28.866 32 25 32 z"
+                    stroke-linecap="round"
+                    />
+                </g>
+                </svg>
+            </button>
+            <div class="popup">
+                <div class="toggle-container2">
+                    <span>Simple Mode</span>
+                    <label class="toggle">
+                    <input type="checkbox" id="simpleMode" />
+                    <span class="slider"></span>
+                </label>
+                </div>
+                <!-- <div class="toggle-container2 toggle-container3">
+                    <span>Dark Mode</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="darkMode" disabled/>
+                        <span class="slider2" id="darkModeslider"></span>
+                    </label>
+                </div> -->
+            </div>
+        </div>
+        
+    </div>
+
+    </body>
+    <script>
+        let uploadedFiles = new Set(); // Keep track of uploaded files
+
+        function updateViewInfoVisibility() {
+    const containerC = document.getElementById('animatedContainerC');
+    const containerAnimation = document.getElementById('animatedContainerAnime');
+    const viewInfo = document.querySelector('.viewInfo');
+    
+    if (containerC.style.display === 'block' || containerAnimation.style.display === 'block') {
+        viewInfo.style.display = 'none';
+    } else {
+        viewInfo.style.display = 'block';
+    }
+}
+        
+function updateLogoVisibility() {
+    // Get the current screen width and height
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    // Check if the screen size is 390x844
+    if (width === 390 && height === 844) {
+        return; // Do nothing if screen size is 390x844
+    }
+
+    // Otherwise, proceed with the logo visibility logic
+    const logo = document.getElementById('animatedContainerL');
+    const container = document.getElementById('animatedContainer');
+    
+    if (container.style.display === 'none') {
+        logo.style.display = 'none';
+    } else {
+        logo.style.display = 'block';
+    }
+}
+
+// For audio list to display and able to delete and play
+
+function createAudioElement(file) {
+    const audioContainer = document.createElement('div');
+    audioContainer.className = 'audio-container';
+    audioContainer.setAttribute('data-filename', file.name);
+
+    // Create audio content wrapper
+    const audioContent = document.createElement('div');
+    audioContent.className = 'audio-content';
+
+    // Create audio info section
+    const audioInfo = document.createElement('div');
+    audioInfo.className = 'audio-info';
+
+    // Add file name
+    const fileName = document.createElement('div');
+    fileName.className = 'file-name';
+    fileName.textContent = file.name;
+
+    // Add duration
+    const duration = document.createElement('div');
+    duration.className = 'duration';
+    duration.textContent = '0:00';
+
+    // Create controls section
+    const audioControls = document.createElement('div');
+    audioControls.className = 'audio-controls';
+
+    // Add play button
+    const playBtn = document.createElement('button');
+    playBtn.className = 'play-btn';
+    playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>';
+
+    // Add delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+
+    // Create hidden audio element
+    const audio = document.createElement('audio');
+    audio.style.display = 'none';
+    const source = URL.createObjectURL(file);
+    audio.src = source;
+
+    // Update duration when metadata is loaded
+    audio.addEventListener('loadedmetadata', () => {
+        const minutes = Math.floor(audio.duration / 60);
+        const seconds = Math.floor(audio.duration % 60);
+        duration.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    });
+
+    // Handle play button click
+    playBtn.onclick = () => {
+        if (audio.paused) {
+            audio.play();
+            playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+        } else {
+            audio.pause();
+            playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>';
+        }
+    };
+
+    // Handle delete button click
+    deleteBtn.onclick = () => {
+        audioContainer.remove();
+        URL.revokeObjectURL(source);
+        uploadedFiles.delete(file.name);
+    };
+
+    // Assemble the elements
+    audioInfo.appendChild(fileName);
+    audioInfo.appendChild(duration);
+    audioControls.appendChild(playBtn);
+    audioControls.appendChild(deleteBtn);
+    audioContent.appendChild(audioInfo);
+    audioContent.appendChild(audioControls);
+    audioContainer.appendChild(audioContent);
+    audioContainer.appendChild(audio);
+
+    return audioContainer;
+}
+
+function handleFileUpload(files) {
+    if (files.length === 0) return;
+
+    const uploadContainer = document.getElementById('animatedContainer');
+    const infoContainer = document.getElementById('animatedContainerP');
+    const analyzeContainer = document.getElementById('animatedContainerA');
+    const audioList = document.getElementById('audio-list');
+
+    // Process each file
+    Array.from(files).forEach(file => {
+        if (!file.type.startsWith('audio/')) {
+            alert(`File "${file.name}" is not an audio file.`);
+            return;
+        }
+
+        if (!uploadedFiles.has(file.name)) {
+            uploadedFiles.add(file.name);
+            const audioElement = createAudioElement(file);
+            audioList.appendChild(audioElement);
+        }
+    });
+
+    // Hide upload container and show info container
+    uploadContainer.style.display = 'none';
+    infoContainer.style.display = 'block';
+    analyzeContainer.style.display = 'block';
+    
+    // Update logo visibility
+    updateLogoVisibility();
+
+}
+
+// Event Listeners for file upload
+document.getElementById('file-input').addEventListener('change', function(event) {
+    handleFileUpload(event.target.files);
+});
+
+const uploadBox = document.querySelector('.upload-box');
+uploadBox.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadBox.classList.add('dragover');
+});
+
+uploadBox.addEventListener('dragleave', () => {
+    uploadBox.classList.remove('dragover');
+});
+
+uploadBox.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadBox.classList.remove('dragover');
+    handleFileUpload(e.dataTransfer.files);
+});
+
+
+
+// MORE INFO PART (when click the button it switch text)
+document.addEventListener('DOMContentLoaded', function() {
+    // Info text switching functionality
+    const text1 = document.getElementById("text1");
+    const text2 = document.getElementById("text2");
+    const toggleButton = document.getElementById("toggleButton");
+    let showingText1 = true;
+
+    toggleButton.addEventListener("click", function () {
+        if (showingText1) {
+            text1.classList.remove("active");
+            setTimeout(() => {
+                text1.style.display = "none";
+                text2.style.display = "block";
+                setTimeout(() => {
+                    text2.classList.add("active");
+                }, 50);
+            }, 500);
+        } else {
+            text2.classList.remove("active");
+            setTimeout(() => {
+                text2.style.display = "none";
+                text1.style.display = "block";
+                setTimeout(() => {
+                    text1.classList.add("active");
+                }, 50);
+            }, 500);
+        }
+        showingText1 = !showingText1;
+    });
+
+    // Ito yung part na pag na click nayung YES BUTTON sa analyze i hide nya na other container and show cards
+    const yesButton = document.querySelector('.PredictBox2');
+
+yesButton.addEventListener('click', async function() {
+    // Hide all initial containers
+    const containersToHide = [
+        'animatedContainerP',
+        'animatedContainerA',
+        'animatedContainerI',
+        'animatedContainerC'
+    ];
+    
+    containersToHide.forEach(id => {
+        const container = document.getElementById(id);
+        if (container) {
+            container.style.display = 'none';
+        }
+    });
+
+    // Hide model toggle when loading starts
+    const toggleContainer = document.querySelector('.toggle-container');
+    if (toggleContainer) {
+        toggleContainer.style.display = 'none';
+    }
+
+    // Show loading animation container
+    const loadingContainer = document.getElementById('animatedContainerAnime');
+    if (loadingContainer) {
+        loadingContainer.style.display = 'block';
+    }
+
+    updateViewInfoVisibility();
+    
+    // Send files to backend
+    const formData = new FormData();
+    const audioElements = document.querySelectorAll('.audio-container');
+    
+    for (const audioElement of audioElements) {
+        const audioSource = audioElement.querySelector('audio');
+        if (audioSource && audioSource.src) {
+            try {
+                const response = await fetch(audioSource.src);
+                const blob = await response.blob();
+                const fileName = audioElement.getAttribute('data-filename');
+                formData.append('files[]', blob, fileName);
+            } catch (error) {
+                console.error('Error processing audio file:', error);
+            }
+        }
+    }
+
+    // Check if any files were added to formData
+    if (formData.getAll('files[]').length === 0) {
+        alert('No valid audio files to process');
+        return;
+    }
+
+    try {
+        const response = await fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Model-Type': document.querySelector('.toggle-text').textContent.toLowerCase() === 'hybrid' ? 'proposed' : 'baseline'
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response from server:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const results = await response.json();
+        console.log('Prediction results:', results);
+
+        // Check if there's a message about invalid files
+        if (results.message) {
+            alert(results.message);
+            delete results.message;  // Remove the message from results
+        }
+
+        // Create cards for results
+        createResultCards(results);
+        updateSummaryCards(results);
+
+            if (loadingContainer) {
+                loadingContainer.style.display = 'none';
+            }
+
+            const cardContainer = document.getElementById('animatedContainerC');
+            if (cardContainer) {
+                cardContainer.style.display = 'block';
+            }
+
+            // Update viewInfo visibility
+            updateViewInfoVisibility();
+
+            // Trigger card animation
+            setTimeout(() => {
+                const cardSpacing = document.querySelector(".cardSpacing");
+                if (cardSpacing) {
+                    cardSpacing.classList.add("show-cards");
+                }
+            }, 100);
+
+            updateLogoVisibility();
+
+    } catch (error) {
+        console.error('Error processing files:', error);
+        alert('Error processing files. Please try again.');
+        location.reload();
+        return;
+    }
+});
+
+
+    // Update the reload functionality to handle viewInfo visibility
+    document.querySelector('.homeBtn').addEventListener('click', function() {
+        // After reload, containerC will be hidden, so viewInfo should be visible
+        const viewInfo = document.querySelector('.viewInfo');
+        viewInfo.style.display = 'block';
+    });
+});
+
+// CONTAINER SWITCHING (ito yung nag hahanda ng pag papalit palit ng containers)
+document.querySelector('.viewInfo').addEventListener('click', function() {
+    const containers = {
+        upload: document.getElementById('animatedContainer'),
+        predict: document.getElementById('animatedContainerP'),
+        analyze: document.getElementById('animatedContainerA'),
+        info: document.getElementById('animatedContainerI'),
+        custom: document.getElementById('animatedContainerC')
+    };
+
+    if (containers.info.style.display === 'block') {
+        // Hide info container
+        containers.info.style.display = 'none';
+        
+        // Check if we have files uploaded
+        if (uploadedFiles.size > 0) {
+            containers.predict.style.display = 'block';
+            containers.analyze.style.display = 'block';
+            containers.upload.style.display = 'none';
+            containers.custom.style.display = 'none';
+        } else {
+            // If no files, show the upload container
+            containers.upload.style.display = 'block';
+            containers.predict.style.display = 'none';
+            containers.analyze.style.display = 'none';
+            containers.custom.style.display = 'none';
+        }
+    } else {
+        // Store the current state before showing info
+        const currentState = {
+            hasUploadedFiles: uploadedFiles.size > 0,
+            uploadVisible: containers.upload.style.display === 'block',
+            predictVisible: containers.predict.style.display === 'block',
+            analyzeVisible: containers.analyze.style.display === 'block',
+            customVisible: containers.custom.style.display === 'block'
+        };
+        
+        // Store the state on the element itself
+        this.lastState = currentState;
+
+        // Hide all containers
+        Object.values(containers).forEach(container => {
+            if (container) container.style.display = 'none';
+        });
+
+        // Show info container
+        containers.info.style.display = 'block';
+    }
+
+    // Update viewInfo visibility
+    updateViewInfoVisibility();
+    
+    // Update logo visibility
+    updateLogoVisibility();
+});
+
+
+//ITo yung sa card MORE INFO part yung mga prediction shits
+
+function showContainerMI() {
+            const containerMI = document.getElementById('containerMI');
+            const containerC = document.getElementById('animatedContainerC');
+
+            containerMI.style.display = 'block';
+            containerC.style.display = 'block';
+        }
+        const MIcontent1 = document.querySelector(".MIcontent1");
+        const MIcontent2 = document.querySelector(".MIcontent2");
+        const toggleButton = document.getElementById("toggleButton2");
+        const clickableThreshold = document.querySelector(".clickable-threshold");
+        const customThreshold = document.querySelector(".CustomThreshold");
+
+        // Initially hide the customThreshold
+        customThreshold.style.display = "none";
+
+        // Toggle for the original content (MIcontent1, MIcontent2)
+        toggleButton.addEventListener("click", () => {
+        MIcontent1.classList.toggle("hidden");
+        MIcontent2.classList.toggle("hidden");
+        
+        // Adjust the button appearance after it's clicked
+        updateButtonStyle();
+        });
+
+        // Toggle for the threshold display
+        clickableThreshold.addEventListener("click", () => {
+        // Check the display property and toggle it
+        if (customThreshold.style.display === "none") {
+            customThreshold.style.display = "block";
+        } else {
+            customThreshold.style.display = "none";
+        }
+        });
+
+        // Function to update the button style based on screen size
+        function updateButtonStyle() {
+        if (window.innerWidth <= 390) {  // Check if on mobile
+            toggleButton.style.transform = "translateX(-50%) scale(0.4)";  // Mobile style
+        } else {
+            toggleButton.style.transform = "translateX(-50%)";  // Desktop style
+        }
+        }
+
+        // Add event listener for window resize to update button style dynamically
+        window.addEventListener("resize", updateButtonStyle);
+
+
+//SCROLL SCRIPT NUNG SA SUMMARY PART
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toggleButton3');
+    const container = document.querySelector('.SpredictContainer');
+    const scrollAmount = 100; // Adjust scroll amount as needed
+    let isScrollingDown = true;
+
+    // Function to check if scrolled to bottom
+    function isScrolledToBottom() {
+        return container.scrollHeight - container.clientHeight <= container.scrollTop + 1;
+    }
+
+    // Function to check if scrolled to top
+    function isScrolledToTop() {
+        return container.scrollTop === 0;
+    }
+
+    toggleButton.addEventListener('click', function() {
+        if (isScrollingDown) {
+            // Scroll down
+            container.scrollBy({
+                top: scrollAmount,
+                behavior: 'smooth'
+            });
+
+            // If reached bottom, rotate arrow and change direction
+            if (isScrolledToBottom()) {
+                toggleButton.style.transform = 'rotate(180deg)';
+                isScrollingDown = false;
+            }
+        } else {
+            // Scroll up
+            container.scrollBy({
+                top: -scrollAmount,
+                behavior: 'smooth'
+            });
+
+            // If reached top, reset arrow rotation and change direction
+            if (isScrolledToTop()) {
+                toggleButton.style.transform = 'rotate(0deg)';
+                isScrollingDown = true;
+            }
+        }
+    });
+
+    // Add transition for smooth rotation
+    toggleButton.style.transition = 'transform 0.3s ease';
+});
+
+//SCROLL SCRIPT NUNG SA AUDIO LIST
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toggleButton4');
+    const container = document.querySelector('.audio-list');
+    const scrollAmount = 100; // Adjust scroll amount as needed
+    let isScrollingDown = true;
+
+    // Function to check if scrolled to bottom
+    function isScrolledToBottom() {
+        return container.scrollHeight - container.clientHeight <= container.scrollTop + 1;
+    }
+
+    // Function to check if scrolled to top
+    function isScrolledToTop() {
+        return container.scrollTop === 0;
+    }
+
+    toggleButton.addEventListener('click', function() {
+        if (isScrollingDown) {
+            // Scroll down
+            container.scrollBy({
+                top: scrollAmount,
+                behavior: 'smooth'
+            });
+
+            // If reached bottom, rotate arrow and change direction
+            if (isScrolledToBottom()) {
+                toggleButton.style.transform = 'rotate(180deg)';
+                isScrollingDown = false;
+            }
+        } else {
+            // Scroll up
+            container.scrollBy({
+                top: -scrollAmount,
+                behavior: 'smooth'
+            });
+
+            // If reached top, reset arrow rotation and change direction
+            if (isScrolledToTop()) {
+                toggleButton.style.transform = 'rotate(0deg)';
+                isScrollingDown = true;
+            }
+        }
+    });
+
+    // Add transition for smooth rotation
+    toggleButton.style.transition = 'transform 0.3s ease';
+});
+
+
+//SUMARRY POP UP PART
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing code remains the same...
+
+    // Add event listener for summary button
+    const summaryBtn = document.querySelector('.summaryBtn');
+    const sumClsBtn = document.querySelector('.sumClsBtn');
+    const containerSummary = document.querySelector('.containerSummary');
+
+    if (summaryBtn) {
+        summaryBtn.addEventListener('click', function() {
+            if (containerSummary) {
+                containerSummary.style.display = 'block';
+            }
+        });
+    }
+
+    if (sumClsBtn) {
+        sumClsBtn.addEventListener('click', function() {
+            if (containerSummary) {
+                containerSummary.style.display = 'none';
+            }
+        });
+    }
+});
+document.querySelector('.closeMI').addEventListener('click', function() {
+    const containerMI = document.getElementById('containerMI');
+    containerMI.style.display = 'none';
+});
+
+
+//BLUR EFFECT
+// Add this function to manage blur effect
+function toggleBlurBackground(show) {
+                const blurBackground = document.querySelector('.blur-background');
+                blurBackground.style.display = show ? 'block' : 'none';
+            }
+
+            // Update the existing showContainerMI function
+            function showContainerMI() {
+                const containerMI = document.getElementById('containerMI');
+                const containerC = document.getElementById('animatedContainerC');
+
+                containerMI.style.display = 'block';
+                containerC.style.display = 'block';
+                toggleBlurBackground(true);
+            }
+
+            // Update the MI close button event listener
+            document.querySelector('.closeMI').addEventListener('click', function() {
+                const containerMI = document.getElementById('containerMI');
+                containerMI.style.display = 'none';
+                toggleBlurBackground(false);
+            });
+
+            // Update the summary button click handlers
+            document.addEventListener('DOMContentLoaded', function() {
+                const summaryBtn = document.querySelector('.summaryBtn');
+                const sumClsBtn = document.querySelector('.sumClsBtn');
+                const containerSummary = document.querySelector('.containerSummary');
+
+                if (summaryBtn) {
+                    summaryBtn.addEventListener('click', function() {
+                        if (containerSummary) {
+                            containerSummary.style.display = 'block';
+                            toggleBlurBackground(true);
                         }
-
-
-                        fileNameDisplay.textContent = fileName;
-                        fileInfo.style.display = "block";
-                        uploadButton.style.display = "none";
-                        loading.style.display = "block";
-
-                        const formData = new FormData();
-                        formData.append('file', files[0]);
-
-                        // Send file and model choice to Flask backend
-                        fetch('/predict', {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'Model-Type': selectedModel
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            loading.style.display = "none";
-                            container.classList.add("pull-up");
-
-                            container.addEventListener("animationend", () => {
-                                container.style.display = "none";
-                                setTimeout(() => {
-                                    containerP.style.display = "block";
-                                    containerP.classList.add("show");
-                                    currentContainer = containerP;
-
-                                    // Update UI with prediction results
-                                    const probability = data.probability;
-                                    const prediction =  data.prediction;
-                                    document.getElementById("prediction-label").textContent = prediction;
-                                    updatePredictionUI(selectedModel, prediction);
-                                    updateUI(probability, selectedModel);
-                                }, 100);
-                            }, { once: true });
-                        })
-                        .catch(error => {
-                            loading.style.display = "none";
-                            alert('Error during file upload: ' + error);
-                        });
-                    }
-                };
-
-                // Add this new function to handle reupload
-                window.handleReupload = () => {
-                    overlay.classList.add('active');
-
-                    setTimeout(() => {
-                        // Set a session storage flag
-                        sessionStorage.setItem('reloading', 'true');
-                        window.location.reload();
-                    }, 100);
-                };
-                if (sessionStorage.getItem('reloading') === 'true') {
-                    // Remove the flag
-                    sessionStorage.removeItem('reloading');
-
-                    // Keep the overlay visible initially
-                    overlay.classList.add('active');
-
-                    // Fade out the overlay
-                    setTimeout(() => {
-                        overlay.classList.remove('active');
-                    }, 25);
+                    });
                 }
 
-                // Handle view info button click
-                viewInfoButton.addEventListener("click", () => {
-                    if (arrow.classList.contains("arrow-right")) {
-                    // Hide current container and show containerI
-                    currentContainer.style.display = "none";
-                    containerI.style.display = "block";
-                    containerI.classList.add("show");
-                    arrow.classList.remove("arrow-right");
-                    arrow.classList.add("arrow-left");
-                    arrow.setAttribute("title", "Back to Upload/Predict");
-                    } else {
-                    // Hide containerI and show previous container
-                    containerI.style.display = "none";
-                    containerI.classList.remove("show");
-                    currentContainer.style.display = "block";
-                    arrow.classList.remove("arrow-left");
-                    arrow.classList.add("arrow-right");
-                    arrow.setAttribute("title", "Model Information");
+                if (sumClsBtn) {
+                    sumClsBtn.addEventListener('click', function() {
+                        if (containerSummary) {
+                            containerSummary.style.display = 'none';
+                            toggleBlurBackground(false);
+                        }
+                    });
+                }
+
+                // Add click handler to close on background click (optional)
+                document.querySelector('.blur-background').addEventListener('click', function() {
+                    const containerMI = document.getElementById('containerMI');
+                    const containerSummary = document.querySelector('.containerSummary');
+                    
+                    if (containerMI.style.display === 'block') {
+                        containerMI.style.display = 'none';
                     }
+                    if (containerSummary.style.display === 'block') {
+                        containerSummary.style.display = 'none';
+                    }
+                    toggleBlurBackground(false);
                 });
             });
 
-            // POP UP RELATED CODE
-            const moreInfoButton = document.querySelector('.prediction-text svg');
-            const popUpMoreInfo = document.querySelector('.popUpMoreInfo');
-            const closeBtn = document.querySelector('.close-btn');
-            const overlay = document.getElementById('overlay');
+// Setting pop up part
+const settingsButton = document.querySelector(".settings-button");
+const popup = document.querySelector(".popup");
+const simpleModeToggle = document.getElementById("simpleMode");
 
-            moreInfoButton.addEventListener('click', () => {
-                popUpMoreInfo.style.display = 'block';
-                overlay.style.display = 'block';
+// DARK MODE
+// const darkModeToggle = document.getElementById("darkMode");
+// Disable dark mode toggle
+// darkModeToggle.disabled = true;
+
+// Toggle popup
+settingsButton.addEventListener("click", () => {
+    popup.classList.toggle("show");
+});
+
+// Close popup when clicking outside
+document.addEventListener("click", (e) => {
+    if (!popup.contains(e.target) && !settingsButton.contains(e.target)) {
+        popup.classList.remove("show");
+    }
+});
+
+// Simple mode toggle
+simpleModeToggle.addEventListener("change", () => {
+    // Store the state in session storage
+    sessionStorage.setItem('simpleMode', simpleModeToggle.checked);
+    
+    if (simpleModeToggle.checked) {
+        window.location.href = "/simple";  // Use route instead of direct file path
+    }
+});
+
+// Check stored state when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if coming back from simple mode
+    const isSimpleMode = sessionStorage.getItem('simpleMode') === 'true';
+    if (simpleModeToggle && isSimpleMode) {
+        simpleModeToggle.checked = true;
+    }
+});
+
+
+
+    //SWITCH MODEL PART
+    const toggleContainer = document.querySelector('.toggle-container');
+    const toggleText = document.querySelector('.toggle-text');
+
+    
+    toggleContainer.addEventListener('click', () => {
+        toggleContainer.classList.toggle('active2');
+        if (toggleContainer.classList.contains('active2')) {
+            toggleText.textContent = 'HC';
+        } else {
+            toggleText.textContent = 'Hybrid';
+        }
+    });
+
+    //palitan si upload.png ng mobileupload.png for 390x844 dimensions
+
+    function updateImageSource() {
+        const uploadButton = document.getElementById('upload-button');
+        
+        // Check screen width and height
+        if (window.innerWidth === 390 && window.innerHeight === 844) {
+            uploadButton.src = "../static/images/mobileupload.png"; // Mobile-specific image
+        } else {
+            uploadButton.src = "../static/images/upload.png"; // Default image
+        }
+    }
+
+    function updateImageSource() {
+        const infoCard = document.getElementById('cardinfo');
+        
+        // Check screen width and height
+        if (window.innerWidth === 390 && window.innerHeight === 844) {
+            infoCard.src = "../static/images/mobileB_info.png"; // Mobile-specific image
+        } else {
+            infoCard.src = "../static/images/B_info.png"; // Default image
+        }
+    }
+
+        // Call the function on page load and window resize
+        window.addEventListener('load', updateImageSource);
+        window.addEventListener('resize', updateImageSource);
+
+        //para sa mobile analyze page
+
+        function updateImagesForSpecificDimensions() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        // Update images if screen dimensions match 390x844
+        if (width === 390 && height === 844) {
+            document.getElementById("img1").src = "../static/images/mobileanalyze.png";
+            document.getElementById("img2").src = "../static/images/mobileyes.png";
+            document.getElementById("img3").src = "../static/images/mobileNo.png";
+            document.getElementById("cardinfo").src = "../static/images/mobileB_info.png";
+        } else {
+            // Restore default images for other screen sizes
+            document.getElementById("img1").src = "../static/images/analyze.png";
+            document.getElementById("img2").src = "../static/images/yes.png";
+            document.getElementById("img3").src = "../static/images/No.png";
+            document.getElementById("cardinfo").src = "../static/images/B_info.png";
+        }
+    }
+
+    // Run the function on page load
+    updateImagesForSpecificDimensions();
+
+    // Add an event listener to handle window resizing dynamically
+    window.addEventListener("resize", updateImagesForSpecificDimensions);
+
+    function updateBackgroundImage() {
+        const backgroundContainer = document.getElementById('background-container');
+        const idContainer = document.getElementById('upload-box');
+        const infoBg = document.getElementById('info-box');
+        const predictBox = document.getElementById('predict-box');
+        
+        // Check if the screen size is exactly 390x844
+        if (window.innerWidth === 390 && window.innerHeight === 844) {
+            backgroundContainer.style.backgroundImage = "url('../static/images/mobileBg.png')"; // Mobile background
+            idContainer.style.backgroundImage = "url('../static/images/mobileswing.png')"; // Mobile ID
+            infoBg.style.backgroundImage = "url('../static/images/infomobBg1.png')"; // Mobile INFO BG
+            predictBox.style.backgroundImage = "url('../static/images/mobileswing.png')"
+        } else {
+            backgroundContainer.style.backgroundImage = "url('../static/images/newBG.png')"; // Default background
+            idContainer.style.backgroundImage = "url('../static/images/swing.png')"; // Default ID
+            infoBg.style.backgroundImage = "url('../static/images/infoBG.png')"; // Default INFO BG
+            predictBox.style.backgroundImage = "url('../static/images/swing.png')"; // Default ID
+        }
+    }
+    
+    // Call the function initially and on window resize
+    updateBackgroundImage();
+    window.addEventListener('resize', updateBackgroundImage);
+
+    // Function to create result cards
+    function createResultCards(results) {
+        const firstRow = document.getElementById('first-row');
+        const secondRow = document.getElementById('second-row');
+        
+        if (!firstRow || !secondRow) {
+            console.error('Card row elements not found');
+            return;
+        }
+
+        // Clear existing cards
+        firstRow.innerHTML = '';
+        secondRow.innerHTML = '';
+        
+        let count = 0;
+        for (const [audioPath, result] of Object.entries(results)) {
+            const cardHTML = `
+                <div class="card1" onclick="showCardDetails('${audioPath}', ${JSON.stringify(result).replace(/"/g, '&quot;')})">
+                    <img src="../static/images/${result.prediction.toLowerCase() === 'bonafide' ? 'bonafide card 11.png' : 'spoof card 12.png'}" />
+                </div>
+            `;
+            
+            // Add to first row if count < 5, otherwise add to second row
+            if (count < 5) {
+                firstRow.innerHTML += cardHTML;
+            } else {
+                secondRow.innerHTML += cardHTML;
+            }
+            count++;
+        }
+    }
+
+    // Function to update summary cards
+    function updateSummaryCards(results) {
+        const summaryContainer = document.getElementById('summary-container');
+        if (!summaryContainer) {
+            console.error('Summary container not found');
+            return;
+        }
+
+        // Clear existing summary cards
+        summaryContainer.innerHTML = '';
+        
+        for (const [audioPath, result] of Object.entries(results)) {
+            const fileName = audioPath.split('/').pop();
+            const summaryCardHTML = `
+                <div class="sumCard" style="background-image: url(../static/images/${result.prediction.toLowerCase() === 'bonafide' ? 'BonaSummary.png' : 'SpoofSummary.png'}); background-size: cover; background-repeat: no-repeat;">
+                    <p class="sumFileN">${fileName}</p>
+                    <p class="sumPrediction">${result.prediction}</p>
+                </div>
+            `;
+            summaryContainer.innerHTML += summaryCardHTML;
+        }
+    }
+
+    // Function to show card details
+    function showCardDetails(audioPath, result) {
+        const containerMI = document.getElementById('containerMI');
+        if (!containerMI) {
+            console.error('containerMI not found');
+            return;
+        }
+
+        const fileName = audioPath.split('/').pop();
+        
+        // Get all required elements
+        const filenameElement = document.querySelector('.MIfilename');
+        const predictionElement = document.querySelector('.MIcontent1 h3:nth-of-type(1)');
+        const probabilityElement = document.querySelector('.MIcontent1 h3:nth-of-type(2)');
+        const modelTypeElement = document.querySelector('.MIcontent1 h3:nth-of-type(3)');
+        const cardInfoImage = document.getElementById('cardinfo');
+        const content2Element = document.querySelector('.MIcontent2');
+        const thresholdImage = document.querySelector('.CustomThreshold img');
+
+        // Check if all elements exist
+        if (!filenameElement || !predictionElement || !probabilityElement || 
+            !modelTypeElement || !cardInfoImage || !content2Element || !thresholdImage) {
+            console.error('One or more required elements not found');
+            return;
+        }
+
+        // Update basic card info
+        filenameElement.textContent = fileName;
+        predictionElement.textContent = result.prediction;
+        probabilityElement.textContent = result.probability.toFixed(2);
+        const currentModel = document.querySelector('.toggle-text').textContent;
+        modelTypeElement.textContent = currentModel;
+
+        // Update background image based on prediction
+        cardInfoImage.src = `../static/images/${result.prediction.toLowerCase() === 'bonafide' ? 'B_info.png' : 'S_info.png'}`;
+
+        // Update content based on prediction and model type
+        let predictionText = '';
+        let modelText = '';
+
+        // Set prediction-specific text
+        if (result.prediction.toLowerCase() === 'bonafide') {
+            predictionText = `
+                <h4>
+                    A prediction of "Bonafide" means that this audio is more likely to
+                    be genuine. The class is determined by a
+                    <span class="clickable-threshold">custom threshold</span>.
+                </h4>
+            `;
+        } else {
+            predictionText = `
+                <h4>
+                    A prediction of "Spoof" means that this audio is more likely to be 
+                    AI Generated. The class is determined by a 
+                    <span class="clickable-threshold">custom threshold</span>.
+                </h4>
+            `;
+        }
+
+        // Set model-specific text
+        if (currentModel === 'Hybrid') {
+            modelText = `<h4>"Hybrid Model" uses Handcrafted and WavLM Features.</h4>`;
+            thresholdImage.src = '../static/images/ThresHybrid.png';
+        } else {
+            modelText = `<h4>"HC Model" uses only HandcraftedFeatures.</h4>`;
+            thresholdImage.src = '../static/images/thresHC.png';
+        }
+
+        // Update content
+        content2Element.innerHTML = `
+            ${predictionText}
+            <h4>
+                Probability pertains to the chance that the audio is deepfake.
+            </h4>
+            ${modelText}
+        `;
+
+        // Show the container
+        containerMI.style.display = 'block';
+
+        // Reattach click event for threshold
+        const newThresholdSpan = content2Element.querySelector('.clickable-threshold');
+        if (newThresholdSpan) {
+            newThresholdSpan.addEventListener('click', () => {
+                const customThreshold = document.querySelector('.CustomThreshold');
+                if (customThreshold) {
+                    customThreshold.style.display = customThreshold.style.display === 'none' ? 'block' : 'none';
+                }
             });
+        }
+    }
 
-            closeBtn.addEventListener('click', () => {
-                popUpMoreInfo.style.display = 'none';
-                overlay.style.display = 'none';
-            });
+    // Add event listeners for summary button
+    document.querySelector('.summaryBtn').addEventListener('click', function() {
+        document.querySelector('.containerSummary').style.display = 'block';
+    });
 
-            overlay.addEventListener('click', () => {
-                popUpMoreInfo.style.display = 'none';
-                overlay.style.display = 'none';
-            });
-
-        </script>
-    </body>
+    document.querySelector('.sumClsBtn').addEventListener('click', function() {
+        document.querySelector('.containerSummary').style.display = 'none';
+    });
+            
+    </script>
 </html>

@@ -49,3 +49,27 @@ def predict_baseline(audio_path, xgb_model):
     feature_importances = xgb_model.feature_importances_
     
     return prediction, float(spoof_probability)
+
+def predict_baseline_batch(audio_paths, xgb_model):
+    """Handle multiple audio files for baseline model"""
+    results = {}
+    
+    for audio_path in audio_paths:
+        try:
+            # Process single audio file
+            prediction, spoof_probability = predict_baseline(audio_path, xgb_model)
+            
+            # Store results in similar format to For Real model
+            results[str(audio_path)] = {
+                "audio_path": str(audio_path),
+                "prediction": prediction.lower(),  # lowercase to match For Real format
+                "probability": spoof_probability,
+                "threshold": 0.1,  # baseline threshold
+                "processing_time": 0.0  # can add timing if needed
+            }
+            
+        except Exception as e:
+            logging.error(f"Error processing {audio_path}: {str(e)}")
+            continue
+    
+    return results

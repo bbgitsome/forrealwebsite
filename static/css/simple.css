@@ -1,0 +1,706 @@
+/* Light Theme */
+:root {
+  --background-color: #f8f8f8;
+  --text-color: #2c2c2c;
+  --primary-color: #d1d1d1;
+  --second-color: #ffffff;
+  --support: #6f6f6f;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #403e3e;
+  --second-color: #1e1e1e;
+  --support: #a8a8a8;
+}
+
+@font-face {
+  font-family: "Panicc";
+  src: url(/static/fonts/Panic.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  min-height: 100vh;
+  background: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-container {
+  background: var(--second-color);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px var(--primary-color);
+  text-align: center;
+  align-items: center;
+  width: 509px;
+  height: 512px;
+  transition: all 0.3s ease;
+}
+
+.upload-icon {
+  width: 50px;
+  height: 50px;
+  margin-top: 100px;
+  margin-left: 150px;
+  margin-bottom: 125px;
+}
+
+.upload-icon svg {
+  width: 250%;
+  height: 250%;
+  color: var(--text-color);
+}
+
+.upload-text {
+  color: var(--text-color);
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.supported-files {
+  color: var(--support);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.drag-active {
+  border: 2px dashed #666;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+#file-input {
+  display: none;
+}
+
+/* Analyze Part */
+.analyze-container {
+  background: var(--second-color);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px var(--primary-color);
+  text-align: center;
+  align-items: center;
+  width: 509px;
+  height: 512px;
+  transition: all 0.3s ease;
+}
+
+/***** Uploaded file display *****/
+/* Container styles */
+.audio-container {
+  margin: 0.8rem auto;
+  /* background-color: #ffffff;
+  border-radius: 1rem; */
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); */
+  /* padding: 1rem; */
+}
+/* Audio list container */
+#audio-list {
+  height: 45vh;
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#audio-list::-webkit-scrollbar {
+  /* display: none; */
+}
+
+/* Audio content layout */
+.audio-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+/* Audio info section */
+.audio-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* File name and duration styling */
+.file-name {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.duration {
+  color: var(--support);
+  font-size: 0.75rem;
+}
+
+/* Audio controls */
+.audio-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.play-btn,
+.delete-btn {
+  padding: 0.2rem 0.8rem; /* 0.5rem * 0.9 and 1rem * 0.9 */
+  border-radius: 1.3rem; /* 1.5rem * 0.9 */
+  border: none;
+  background-color: var(--text-color);
+  color: var(--background-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  font-size: 0.72rem; /* 0.8rem * 0.9 */
+}
+
+/* Play button specific styles */
+.play-btn {
+  background-color: var(--text-color);
+  min-width: 3.6rem; /* 4rem * 0.9 */
+}
+
+/* Delete button specific styles */
+.delete-btn {
+  background-color: transparent;
+  color: var(--text-color);
+  padding: 0.45rem; /* 0.5rem * 0.9 */
+}
+
+/* Hover states */
+.play-btn:hover {
+  background-color: var(--text-color);
+}
+
+.delete-btn:hover {
+  color: #ff4444;
+}
+
+.play-text {
+  margin-right: 8px; /* Add space between text and SVG */
+  font-size: 16px; /* Adjust text size */
+  font-weight: bold;
+}
+
+/* analyze button */
+/* Center container styling */
+.center-container {
+  position: absolute;
+  display: flex; /* Use flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin-top: 40px; /* Remove default margins */
+  left: 46%;
+}
+
+/* Button styling */
+.analyze-btn {
+  background-color: var(--text-color); /* Dark background */
+  color: var(--background-color); /* White text */
+  font-size: 16px; /* Text size */
+  font-weight: bold; /* Make text bold */
+  border: none; /* Remove border */
+  border-radius: 20px; /* Rounded corners */
+  padding: 10px 40px; /* Padding inside the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover animation */
+}
+
+.analyze-btn:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 8px var(--text-color); /* Enhance shadow on hover */
+}
+
+.analyze-btn:active {
+  transform: scale(0.95); /* Shrink slightly on click */
+  box-shadow: 0 2px 4px var(--text-color); /* Subtle shadow on click */
+}
+
+/* Result Part */
+.result-container {
+  background: var(--second-color);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px var(--primary-color);
+  text-align: center;
+  align-items: center;
+  width: 509px;
+  height: 512px;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+}
+.audio-list2 {
+  height: 45vh;
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.prediction-indicator {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.prediction-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-color);
+}
+
+.prediction-icon-color {
+  fill: var(--text-color);
+}
+.prediction-icon-color2 {
+  fill: var(--background-color);
+}
+
+.prediction-text {
+  font-size: 9px;
+  color: var(--text-color);
+  text-align: center; /* Optional: Center-align the text */
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+}
+
+.select-button {
+  background-color: var(--text-color); /* Dark background */
+  color: var(--background-color); /* White text */
+  font-size: 16px; /* Text size */
+  font-weight: bold; /* Make text bold */
+  border: none; /* Remove border */
+  border-radius: 20px; /* Rounded corners */
+  padding: 10px 40px; /* Padding inside the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover animation */
+}
+
+/* upload again button */
+.again-btn {
+  background-color: var(--text-color); /* Dark background */
+  color: var(--background-color); /* White text */
+  font-size: 16px; /* Text size */
+  font-weight: bold; /* Make text bold */
+  border: none; /* Remove border */
+  border-radius: 20px; /* Rounded corners */
+  padding: 10px 40px; /* Padding inside the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover animation */
+}
+
+/* SWITCH MODEL */
+.toggle-container {
+  background: var(--text-color);
+  border-radius: 30px;
+  padding: 5px;
+  width: 125px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: fixed;
+  left: 6px;
+  bottom: 20px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  transform: scale(0.8);
+}
+
+.toggle-container.active2 {
+  background: var(--text-color);
+}
+
+.toggle-circle {
+  background: var(--background-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.toggle-container.active2 .toggle-circle {
+  left: calc(100% - 45px);
+  background: var(--background-color);
+}
+
+.toggle-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.toggle-text {
+  color: var(--background-color);
+  margin-left: 50px;
+  font-size: 16px;
+  user-select: none;
+  transition: all 0.3s ease;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.toggle-container.active2 .toggle-text {
+  color: var(--background-color);
+  margin-left: 30px;
+  font-size: 20px;
+}
+
+/* Fixed SVG styles */
+.network-icon {
+  fill: none;
+  stroke: #3f3f3f;
+  stroke-width: 2;
+  transition: all 0.3s ease;
+}
+
+/* Updated icon colors for both states */
+.toggle-container .network-icon {
+  stroke: transparent;
+}
+
+.toggle-container.active2 .network-icon {
+  stroke: #fff; /* Icon color when in active state */
+}
+
+.toggle-container.active2 .toggle-circle .network-icon {
+  stroke: #fff; /* Icon color in the circle when active */
+}
+
+/* Settings POP UP */
+.settings-container {
+  position: absolute;
+  width: fit-content;
+  top: 1%;
+  left: 97%;
+}
+
+.settings-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.gear-set {
+  stroke: none;
+  stroke-width: 1;
+  stroke-dasharray: none;
+  stroke-linecap: butt;
+  stroke-dashoffset: 0;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 4;
+  fill: var(--text-color);
+  fill-rule: nonzero;
+  opacity: 1;
+}
+
+.gear-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--text-color);
+}
+
+.popup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--background-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px var(--text-color);
+  display: none;
+  min-width: 200px;
+  color: var(--text-color);
+}
+
+.popup.show {
+  display: block;
+}
+
+.toggle-container2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--text-color);
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--background-color);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--text-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
+body.dark-mode .popup {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
+/* LOGO */
+
+@font-face {
+  font-family: "Panic";
+  src: url('../fonts/Panic.ttf') format('truetype'); 
+}
+
+.logoFR {
+  position: absolute;
+  top: 4%;
+  left: 2%;
+  font-family: "Panic";
+  font-size: 35px;
+  color: var(--text-color);
+}
+
+/* Loading Part */
+.loading-container {
+  background: var(--second-color);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px var(--primary-color);
+  text-align: center;
+  align-items: center;
+  width: 509px;
+  height: 512px;
+  transition: all 0.3s ease;
+}
+
+.progress-bar {
+  width: 300px;
+  height: 20px;
+  background-color: var(--support);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-left: 62px;
+}
+
+.bar {
+  height: 100%;
+  background-color: var(--text-color);
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.5s ease-in-out;
+}
+#progress-text {
+  color: var(--text-color);
+  font-size: 18px;
+}
+
+.loading-iconn {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* cancel button */
+.cancel-btn {
+  background-color: var(--text-color); /* Dark background */
+  color: var(--background-color); /* White text */
+  font-size: 16px; /* Text size */
+  font-weight: bold; /* Make text bold */
+  border: none; /* Remove border */
+  border-radius: 20px; /* Rounded corners */
+  padding: 10px 40px; /* Padding inside the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover animation */
+  position: absolute;
+  bottom: 30%;
+  left: 46.5%;
+}
+
+.loadSvg {
+  stroke: var(--text-color);
+}
+
+@media only screen and (min-width: 390px) and (max-width: 844px) {
+
+  .upload-container {
+    width: 350px;
+    height: 400px;
+    margin-left: 35px;
+  }
+
+  .upload-icon svg {
+    margin-left: -70px;
+    margin-top: -50px;
+  }
+
+  .upload-text {
+    margin-top: -70px;
+  }
+
+  .logoFR {
+    top: 5%;
+    left: 8%;
+  }
+
+  .popup {
+    right: 50%;
+  }
+
+  .analyze-container {
+    width: 350px;
+    height: 400px;
+    margin-left: 35px;
+  }
+
+  #audio-list {
+    height: 40vh;
+    margin-top: -20px;
+    width: 110%;
+    margin-left: -10px;
+  }
+
+  .audio-list2 {
+    height: 40vh;
+    width: 110%;
+    margin-left: -10px;
+    margin-top: -20px;
+  }
+
+  .analyze-btn {
+    margin-left: -35px;
+  }
+
+  .again-btn {
+    margin-left: -65px;
+  }
+
+  .play-btn {
+    z-index: 1;
+    margin-right: -10px;
+  }
+
+  .file-name {
+    font-size: 0.7rem;
+    margin-top: 5px;
+  }
+
+
+  .play-text {
+    margin-right: 7px;
+    font-size: 13px;
+  }
+
+  .duration {
+    font-size: 0.70rem;
+  }
+
+  .loading-container,
+  .result-container {
+    width: 350px;
+    height: 400px;
+    margin-left: 35px;
+  }
+
+  .loading-iconn {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+  .progress-bar {
+    width: 200px;
+    margin-left: 40px;
+    margin-top: -20px;
+  }
+
+  .cancel-btn {
+    margin-top: -30px;
+    margin-left: -35px;
+  }
+
+  #progress-text {
+    margin-bottom: -20px;
+  }
+
+  .prediction-indicator {
+    padding: 4px 1px;
+  }
+
+
+}

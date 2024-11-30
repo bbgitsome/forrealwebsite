@@ -2,6 +2,7 @@ numpy==1.26.4
 librosa==0.10.2
 xgboost==2.1.0
 torch==2.4.0
+torchaudio==2.4.0
 transformers==4.39.3
 joblib==1.4.2
 scikit-learn==1.5.1

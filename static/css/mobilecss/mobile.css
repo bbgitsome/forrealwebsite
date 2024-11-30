@@ -1,0 +1,323 @@
+@media only screen and (min-width: 390px) and (max-width: 844px) {
+  .FRBigLogo {
+    display: block !important; /* Force visibility */
+    position: fixed; /* Keep it on-screen while scrolling */
+    top: 10px; /* Position at the top */
+    left: -70px; /* Adjust position */
+    z-index: 1000; /* Ensure it stays on top of other elements */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .container {
+    width: 370px;
+    height: 1200px;
+    position: relative;
+    transform-origin: top;
+    animation: drop 2s ease-in-out;
+    animation-delay: 0s, 2s; /* Start swing after 0.8s (duration of drop) */
+  }
+
+  .background-container {
+    background-image: url("/static/images/mobileBg.png");
+    background-position: top;
+  }
+
+  .upload-box {
+    position: absolute;
+    background-image: url("/static/images/mobileswing.png");
+    background-size: auto;
+    background-repeat: no-repeat;
+    margin-left: 35px;
+    margin-top: 150px;
+    width: 300px;
+    transform: scale(1.2);
+  }
+
+  .FRBigLogo img {
+    width: 14vh; /* Maintain the height relative to viewport height */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .button-image {
+    /* upload your audio */
+    position: absolute;
+    width: 200px;
+    height: 250px;
+    margin-top: -530px;
+    margin-left: -111px;
+  }
+
+  .toggle-container {
+    height: 35px;
+    width: 90px;
+  }
+
+  .toggle-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .toggle-text {
+    margin-left: 43px;
+    font-size: 12px;
+  }
+
+  .toggle-container.active2 .toggle-text {
+    margin-left: 20px;
+    font-size: 14px;
+  }
+
+  .arrow {
+    padding: 0.8rem; /* Reduced size for mobile */
+    border-width: 0 0 1.5rem 1.5rem; /* Adjust thickness */
+    margin-right: -10px; /* Adjust spacing */
+  }
+
+  .info-box {
+    background-image: url("/static/images/infomobBg1.png"); /* New background image for mobile */
+    width: 390px;
+    height: 409px;
+    margin-left: -20px;
+    margin-top: 350px;
+  }
+
+  #text1,
+  #text2 {
+    font-size: 17px;
+    width: 280px;
+  }
+
+  .arrwBtn img {
+    /* If your button has an image inside */
+    width: 30px; /* Resize the icon/image */
+    height: 12px; /* Resize the icon/image */
+  }
+
+  .imgLogo {
+    display: none;
+  }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    /* Add your styling for the arrow here */
+  }
+
+  .arrow-text {
+    font-size: 18px;
+    margin-left: 10px;
+  }
+
+  /* Hide the arrow image when the text is displayed */
+  .arrow .arrow-icon {
+    display: block;
+  }
+
+  .arrow .arrow-text {
+    display: none;
+  }
+
+  .arrow-back .arrow-text {
+    display: block; /* Show "Back" text */
+  }
+
+  .arrow-back .arrow-icon {
+    display: none; /* Hide the arrow icon */
+  }
+
+  .PredictionText {
+    width: 200px;
+  }
+
+  #img1 {
+    margin-bottom: -30px;
+  }
+
+  #img2 {
+    margin-top: -100px;
+    margin-right: -150px;
+  }
+
+  #img3 {
+    margin-right: -150px;
+  }
+
+  .containerA {
+    width: 390px;
+    height: 240px;
+    margin-left: -190px;
+    margin-top: 430px;
+  }
+
+  /* AUDIO LIST PART */
+  .predict-box {
+    position: absolute;
+    width: 90%; /* Make it responsive */
+    height: 1200px; /* Adjust height to content */
+    right: 5%; /* Adjust alignment */
+    left: 8%; /* Override desktop setting */
+    top: -20%;
+    /* overflow: hidden; */
+    background-image: url("/static/images/mobileswing.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transform: scale(0.6);
+  }
+  .containerP {
+    width: 600px;
+    height: 1200px;
+    left: -40%;
+  }
+  .predict-section {
+    top: 50%;
+    margin-left: 6px;
+  }
+
+  #audio-list {
+    height: 53vh;
+  }
+
+  #img2:hover img {
+    transform: scale(0.5); /* Scale the image by 1.2 when hovered */
+  }
+
+  #img3:hover img {
+    transform: scale(1.1); /* Scale the image by 1.2 when hovered */
+  }
+
+  .card1 {
+    width: 150px;
+    margin-right: -90px;
+    height: 130px;
+    opacity: 0;
+    position: relative;
+    transform-origin: center bottom;
+    animation: dealCard 0.8s ease forwards;
+  }
+
+  .card1 img:hover {
+    transform: scale(1.1); /* Scale up on hover */
+  }
+
+  .card1 img {
+    width: 40%;
+    height: 100%;
+    object-fit: contain;
+    margin-left: -90px;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .card-row {
+    gap: 15px;
+  }
+
+  .cardSpacing {
+    display: flex;
+    flex-direction: column;
+    gap: -20px;
+    perspective: 1000px;
+    position: relative;
+    visibility: hidden; /* Hide cards initially */
+  }
+
+  .homeBtn,
+  .summaryBtn {
+    width: 120px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .changeMIbg {
+    transform: scale(0.6);
+    position: absolute;
+    margin-left: -190px;
+  }
+
+  .changeMIbg {
+    margin-left: -55px;
+    margin-top: -30px;
+  }
+
+  .MIfilename {
+    position: absolute;
+    top: 30%; /* Adjust as needed */
+    left: 115%;
+    transform: translate(-50%, -50%);
+    font-family: "Germania one";
+    font-size: 32px;
+  }
+  .MIcontent1 {
+    margin-left: -201px;
+    padding-top: 240px; /*adujust contentMI */
+    width: 340px;
+    height: 300px;
+    position: relative;
+    left: 157%;
+  }
+  .MIcontent1 h3 {
+    font-size: 16px;
+  }
+  .MIcontent1 h2 {
+    font-family: "Spicy Rice";
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .MIcontent2 {
+    margin-left: 50px;
+    padding-top: 285px; /*adujust contentMI */
+    width: 340px;
+    height: 300px;
+    position: relative;
+    left: 157%;
+  }
+
+  .closeMI {
+    position: fixed;
+    top: 20%;
+    left: 80%;
+    transform: scale(0.7);
+  }
+
+  .arrwBtn2 {
+    position: absolute;
+    bottom: -5%;
+    left: 130%;
+    transform: translateX(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding-left: 0;
+    transform: scale(0.4);
+  }
+
+  .MIcontent2 {
+    margin-left: -61px;
+    padding-top: 250px; /*adujust contentMI */
+    margin-bottom: -110px;
+    width: 200px;
+    height: 400px;
+    position: relative;
+    left: 105%;
+  }
+
+  .MIcontent2 h4 {
+    font-size: 15px;
+    margin-top: 20px;
+  }
+
+  .threshold {
+    margin-top: -40px;
+    margin-left: -90px;
+    transform: scale(0.6);
+  }
+
+  .containerSummary {
+    margin-left: -200px;
+    transform: scale(0.65);
+  }
+}
