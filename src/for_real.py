@@ -99,7 +99,7 @@ def check_termination(func):
     return wrapper
 
 # Basic setup
-device = torch.device("cpu")
+device = torch.device("cuda")
 torch.backends.cudnn.benchmark = True
 torch.set_float32_matmul_precision('high')
 
