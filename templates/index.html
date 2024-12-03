@@ -92,10 +92,11 @@
                     <div class="info-box" id="info-box" style="background-image: url('../static/images/infoBG.png');">                      <div class="textContent">
                         <img class="imgLogo" src="../static/images/FORREAL.png" alt="FOR REAL" />
                         <p id="text1" class="active">
-                            While we strive to provide accurate results, the system is
-                            guaranteed to be 100% correct in all cases. Audio deepfakes are
-                            evolving, and the system's predictions may vary based on
-                            numerous factors, including the quality of the audio and the
+                            While we strive to provide accurate results, the 
+                            system is guaranteed to be 100% correct in all cases. 
+                            Audio deepfakes are evolving, and the system's 
+                            predictions may vary based on numerous factors, 
+                            including the quality of the audio and the
                             presence of real-world noise.
                         </p>
                         <p id="text2">
@@ -161,25 +162,17 @@
                             <h3>Hybrid</h3>
                         </div>
                         <div class="MIcontent2 hidden">
-                            <!-- MAPAPALITAN YUNG TEXT CONTENT DEPENDE SA PREDICTION AT SA MODEL NA GAMIT -->
                             <h4>
-                            A prediction of “Bonafide” means that this audio is more likely to
-                            be genuine. The class is determined by a
-                            <span class="clickable-threshold">custom threshold</span>.
+                                A prediction of "Bonafide" means that this audio is more likely to
+                                be genuine. The class is determined by a
+                                <span class="clickable-threshold">custom threshold</span>.
                             </h4>
-                            <!-- ITO PAG SPOOF -->
-                            <!-- <h4>
-                            A prediction of “Spoof” means that this audio is more likely to be 
-                            AI Generated. The class is determined by a 
-                            <span class="clickable-threshold">custom threshold</span>.
-                            </h4> -->
-                        
                             <h4>
-                            Probability pertains to the chance that the audio is deepfake.
+                                Probability pertains to the chance that the audio is deepfake.
                             </h4>
-                            <!-- ito pipili depende kung HYbrid or HC yung gamit na model -->
-                            <h4>“Hybrid Model” uses Handcrafted and WavLM Features.</h4>
-                            <!-- <h4>“HC Model” uses only HandcraftedFeatures.</h4> -->
+                            <h4>
+                                "Hybrid Model" uses Handcrafted and WavLM Features.
+                            </h4>
                         </div>
                         </div>
                         <button class="arrwBtn2" id="toggleButton2">
@@ -190,6 +183,7 @@
                         <img src="../static/images/ThresHybrid.png" class="threshold"/>
                         <!-- <img src="../static/images/thresHC.png" /> -->
                         <!-- Pag HC yung model ito yung pop up na threshold -->
+
                     </div>
                     
                 </div>
@@ -824,6 +818,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.querySelector('.closeMI').addEventListener('click', function() {
     const containerMI = document.getElementById('containerMI');
     containerMI.style.display = 'none';
+    toggleBlurBackground(false);
 });
 
 
@@ -918,7 +913,15 @@ simpleModeToggle.addEventListener("change", () => {
     sessionStorage.setItem('simpleMode', simpleModeToggle.checked);
     
     if (simpleModeToggle.checked) {
-        window.location.href = "/simple";  // Use route instead of direct file path
+        // Reset progress and files before switching to simple mode
+        fetch('/reset', {
+            method: 'POST'
+        }).then(() => {
+            window.location.href = "/simple";  // Redirect after reset
+        }).catch(error => {
+            console.error('Error resetting:', error);
+            window.location.href = "/simple";  // Redirect anyway if reset fails
+        });
     }
 });
 
@@ -1071,10 +1074,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         for (const [audioPath, result] of Object.entries(results)) {
             const fileName = audioPath.split('/').pop();
+            const prediction = result.prediction.charAt(0).toUpperCase() + result.prediction.slice(1);
             const summaryCardHTML = `
                 <div class="sumCard" style="background-image: url(../static/images/${result.prediction.toLowerCase() === 'bonafide' ? 'BonaSummary.png' : 'SpoofSummary.png'}); background-size: cover; background-repeat: no-repeat;">
                     <p class="sumFileN">${fileName}</p>
-                    <p class="sumPrediction">${result.prediction}</p>
+                    <p class="sumPrediction">${prediction}</p>
                 </div>
             `;
             summaryContainer.innerHTML += summaryCardHTML;
@@ -1088,6 +1092,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('containerMI not found');
             return;
         }
+
+        // Add this line to activate blur when showing card details
+        toggleBlurBackground(true);
 
         const fileName = audioPath.split('/').pop();
         
@@ -1108,8 +1115,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Update basic card info
+        const prediction = result.prediction.charAt(0).toUpperCase() + result.prediction.slice(1);
         filenameElement.textContent = fileName;
-        predictionElement.textContent = result.prediction;
+        predictionElement.textContent = prediction;
         probabilityElement.textContent = result.probability.toFixed(2);
         const currentModel = document.querySelector('.toggle-text').textContent;
         modelTypeElement.textContent = currentModel;
@@ -1145,7 +1153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modelText = `<h4>"Hybrid Model" uses Handcrafted and WavLM Features.</h4>`;
             thresholdImage.src = '../static/images/ThresHybrid.png';
         } else {
-            modelText = `<h4>"HC Model" uses only HandcraftedFeatures.</h4>`;
+            modelText = `<h4>"HC Model" uses only Handcrafted Features.</h4>`;
             thresholdImage.src = '../static/images/thresHC.png';
         }
 
@@ -1161,10 +1169,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show the container
         containerMI.style.display = 'block';
 
+        // Add click event listener to document body to close threshold
+        document.body.addEventListener('click', (e) => {
+            const customThreshold = document.querySelector('.CustomThreshold');
+            const clickedThreshold = e.target.closest('.clickable-threshold');
+            const clickedThresholdImage = e.target.closest('.CustomThreshold');
+            
+            // If clicked outside threshold and threshold is visible, hide it
+            if (!clickedThreshold && !clickedThresholdImage && customThreshold && customThreshold.style.display === 'block') {
+                customThreshold.style.display = 'none';
+            }
+        });
+
         // Reattach click event for threshold
         const newThresholdSpan = content2Element.querySelector('.clickable-threshold');
         if (newThresholdSpan) {
-            newThresholdSpan.addEventListener('click', () => {
+            newThresholdSpan.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent body click handler from firing
                 const customThreshold = document.querySelector('.CustomThreshold');
                 if (customThreshold) {
                     customThreshold.style.display = customThreshold.style.display === 'none' ? 'block' : 'none';
@@ -1172,6 +1193,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+
+
 
     // Add event listeners for summary button
     document.querySelector('.summaryBtn').addEventListener('click', function() {

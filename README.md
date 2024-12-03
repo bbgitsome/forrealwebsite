@@ -12,6 +12,7 @@ This repository contains the implementation of the thesis project titled ***"For
 2. Set up the environment. (Optional but recommended to avoid package version conflicts)
 3. Install the required Python packages by running: `pip install -r requirements.txt`
 4. Navigate to ***models/for_real/*** and open ***WavLM Instruction.txt***. Follow the instructions to download ***best_wavlm_asvspoof_model.pth*** and place it in the same directory. This is necessary because GitHub does not allow uploading large files.
+5. Download ***cards-loading-loop.webm*** at the google drive and place it in the ***static/images/***
 
 ## Running the Application
 - Once everything is set up and no errors occur during the installation of dependencies, you can run the Flask app with the following command:

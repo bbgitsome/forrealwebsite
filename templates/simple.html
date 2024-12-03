@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="static/css/simple.css" />
+    <link rel="stylesheet" href="../static/css/simple.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>For Real Simple Mode</title>
   </head>
@@ -47,7 +47,9 @@
         </div>
       </div>
       <!-- Logo -->
-      <div class="logoFR" style="display: block">FOR<br />REAL</div>
+      <div class="logoFR" onclick="location.reload()" style="display: block">
+        FOR<br />REAL
+      </div>
       <!-- Switch model -->
       <div class="toggle-container">
         <div class="toggle-circle"></div>
@@ -103,99 +105,7 @@
       </div>
       <div class="loading-container" style="display: none">
         <div class="loading-iconn">
-          <svg
-            id="Arrows_Synchronize_24"
-            width="144"
-            height="144"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-          >
-            <rect
-              width="24"
-              height="24"
-              stroke="none"
-              fill="#000000"
-              opacity="0"
-            />
-
-            <g transform="matrix(1.43 0 0 1.43 12 12)">
-              <g style="">
-                <g transform="matrix(1 0 0 1 5.25 2.5)" class="loadSvg">
-                  <path
-                    style="
-                      stroke-width: 1.2;
-                      stroke-dasharray: none;
-                      stroke-linecap: round;
-                      stroke-dashoffset: 0;
-                      stroke-linejoin: round;
-                      stroke-miterlimit: 4;
-                      fill: none;
-                      fill-rule: nonzero;
-                      opacity: 1;
-                    "
-                    transform=" translate(-12.25, -9.5)"
-                    d="M 11 9 L 13 8.5 L 13.5 10.5"
-                    stroke-linecap="round"
-                  />
-                </g>
-                <g transform="matrix(1 0 0 1 0.18 3.75)" class="loadSvg">
-                  <path
-                    style="
-                      stroke-width: 1.2;
-                      stroke-dasharray: none;
-                      stroke-linecap: round;
-                      stroke-dashoffset: 0;
-                      stroke-linejoin: round;
-                      stroke-miterlimit: 4;
-                      fill: none;
-                      fill-rule: nonzero;
-                      opacity: 1;
-                    "
-                    transform=" translate(-7.18, -10.75)"
-                    d="M 13 8.5 C 12.5558 9.75861 11.749 10.8576 10.6813 11.6584 C 9.61353 12.4592 8.33262 12.926 6.99999 13 C 5.7681 13.0002 4.566 12.6213 3.55697 11.9146 C 2.54794 11.2079 1.78088 10.2078 1.35999 9.05"
-                    stroke-linecap="round"
-                  />
-                </g>
-                <g transform="matrix(1 0 0 1 -5.25 -2.5)" class="loadSvg">
-                  <path
-                    style="
-                      stroke-width: 1.2;
-                      stroke-dasharray: none;
-                      stroke-linecap: round;
-                      stroke-dashoffset: 0;
-                      stroke-linejoin: round;
-                      stroke-miterlimit: 4;
-                      fill: none;
-                      fill-rule: nonzero;
-                      opacity: 1;
-                    "
-                    transform=" translate(-1.75, -4.5)"
-                    d="M 3 5 L 1 5.5 L 0.5 3.5"
-                    stroke-linecap="round"
-                  />
-                </g>
-                <g transform="matrix(1 0 0 1 -0.18 -3.75)" class="loadSvg">
-                  <path
-                    style="
-                      stroke-width: 1.2;
-                      stroke-dasharray: none;
-                      stroke-linecap: round;
-                      stroke-dashoffset: 0;
-                      stroke-linejoin: round;
-                      stroke-miterlimit: 4;
-                      fill: none;
-                      fill-rule: nonzero;
-                      opacity: 1;
-                    "
-                    transform=" translate(-6.82, -3.25)"
-                    d="M 1 5.5 C 1.84 3.2 4.42 1 7 1 C 8.23789 1.00348 9.4444 1.38976 10.4541 2.10588 C 11.4639 2.822 12.2274 3.8329 12.64 5"
-                    stroke-linecap="round"
-                  />
-                </g>
-              </g>
-            </g>
-          </svg>
+          <img src="../static/images/loading_ico-fixed.png" alt="Loading" />
         </div>
         <button class="cancel-btn" onclick="location.reload()">Cancel</button>
         <div class="progress-bar">
@@ -366,81 +276,116 @@
       });
 
       // Analyze button event listener
-      document.querySelector(".analyze-btn").addEventListener("click", async () => {
-        // Hide analyze part
-        document.querySelector(".analyze-part").style.display = "none";
+      document
+        .querySelector(".analyze-btn")
+        .addEventListener("click", async () => {
+          // Hide analyze part
+          document.querySelector(".analyze-part").style.display = "none";
 
-        // Show loading container
-        const loadingContainer = document.querySelector(".loading-container");
-        loadingContainer.style.display = "block";
+          // Show loading container
+          const loadingContainer = document.querySelector(".loading-container");
+          loadingContainer.style.display = "block";
 
-        // Hide model toggle when loading starts
-        const toggleContainer = document.querySelector('.toggle-container');
-        if (toggleContainer) {
-            toggleContainer.style.display = 'none';
-        }
+          // Hide model toggle when loading starts
+          const toggleContainer = document.querySelector(".toggle-container");
+          if (toggleContainer) {
+            toggleContainer.style.display = "none";
+          }
 
-        // Start loading animation
-        const progressBar = document.getElementById("progress-bar");
-        const progressText = document.getElementById("progress-text");
-        let progress = 0;
-        let intervalId;
+          // Start loading animation
+          const progressBar = document.getElementById("progress-bar");
+          const progressText = document.getElementById("progress-text");
+          let progress = 0;
 
-        function updateProgress() {
-            if (progress < 80) {  // Only go up to 90% until prediction is complete
-                progress += 20;  // Increased from 10 to 20 for faster progress
-                progressBar.style.width = `${progress}%`;
-                progressText.textContent = `Processing Audio Files... ${progress}%`;
+          // Create EventSource for server-sent events
+          const eventSource = new EventSource("/progress");
+
+          // Add debug logging
+          console.log("EventSource created");
+
+          // Listen for progress updates
+          eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            progress = data.progress;
+            const processed = data.processed;
+            const total = data.total;
+
+            // Debug logging
+            console.log(
+              `Progress update received: ${processed}/${total} (${progress}%)`
+            );
+
+            // Update progress bar
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `Processing Audio Files... ${processed}/${total} (${progress}%)`;
+
+            // If processing is complete, close the connection
+            if (progress >= 100) {
+              console.log("Processing complete, closing EventSource");
+              eventSource.close();
             }
-        }
+          };
 
-        // Set interval to update progress more frequently
-        intervalId = setInterval(updateProgress, 200);  // Decreased from 1000 to 200ms
+          // Handle any errors
+          eventSource.onerror = (error) => {
+            console.error("EventSource failed:", error);
+            eventSource.close();
+          };
 
-        try {
+          // Handle connection open
+          eventSource.onopen = () => {
+            console.log("EventSource connection opened");
+          };
+
+          try {
             const formData = new FormData();
             // Get audio containers from the correct location
-            const audioContainers = document.querySelectorAll("#audio-list .audio-container");
-            
+            const audioContainers = document.querySelectorAll(
+              "#audio-list .audio-container"
+            );
+
             // Add each file to formData
             for (const container of audioContainers) {
-                const audio = container.querySelector("audio");
-                const fileName = container.querySelector(".file-name").textContent;
-                
-                // Get the file from the audio element's src
-                const response = await fetch(audio.src);
-                const blob = await response.blob();
-                formData.append("files[]", blob, fileName);
+              const audio = container.querySelector("audio");
+              const fileName =
+                container.querySelector(".file-name").textContent;
+
+              // Get the file from the audio element's src
+              const response = await fetch(audio.src);
+              const blob = await response.blob();
+              formData.append("files[]", blob, fileName);
             }
 
             // Get current model type
-            const modelType = document.querySelector(".toggle-text").textContent;
+            const modelType =
+              document.querySelector(".toggle-text").textContent;
             const headers = {
-                'Model-Type': modelType.toLowerCase() === 'hybrid' ? 'proposed' : 'baseline'
+              "Model-Type":
+                modelType.toLowerCase() === "hybrid" ? "proposed" : "baseline",
             };
 
             // Send to backend
-            const response = await fetch('/predict', {
-                method: 'POST',
-                headers: headers,
-                body: formData
+            const response = await fetch("/predict", {
+              method: "POST",
+              headers: headers,
+              body: formData,
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+              throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             // Get the results
             const results = await response.json();
 
-            // Complete the progress bar
-            clearInterval(intervalId);
-            progress = 100;
-            progressBar.style.width = "100%";
-            progressText.textContent = "Processing Audio Files... 100%";
+            // Add a small delay before showing results
+            await new Promise((resolve) => setTimeout(resolve, 300));
 
-            // Add a small delay before showing results to ensure animation is visible
-            await new Promise(resolve => setTimeout(resolve, 300));
+            // Close EventSource if it hasn't been closed already
+            if (eventSource.readyState !== 2) {
+              // 2 means CLOSED
+              eventSource.close();
+            }
 
             // Hide loading container
             loadingContainer.style.display = "none";
@@ -454,77 +399,39 @@
 
             // Create result elements
             Object.entries(results).forEach(([audioPath, result]) => {
-                if (audioPath !== 'message') {
-                    const fileName = audioPath.split('/').pop();
-                    const resultContainer = document.createElement("div");
-                    resultContainer.className = "audio-container result-item";
+              if (audioPath !== "message") {
+                const fileName = audioPath.split("/").pop();
+                const resultContainer = document.createElement("div");
+                resultContainer.className = "audio-container result-item";
 
-                    // Find the original container
-                    const originalContainer = Array.from(document.querySelectorAll("#audio-list .audio-container"))
-                        .find(container => container.querySelector(".file-name").textContent === fileName);
-                    
-                    // Get duration from original container
-                    const duration = originalContainer ? 
-                        originalContainer.querySelector(".duration").textContent : 
-                        "Duration - 0:00";
+                // Get current theme
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                
+                resultContainer.innerHTML = `
+                  <div class="audio-content">
+                    <div class="audio-info">
+                      <div class="file-name">${fileName}</div>
+                    </div>
+                    <div class="audio-controls">
+                      <img 
+                        class="prediction-icon" 
+                        src="../static/images/${result.prediction.toLowerCase()}-${currentTheme}.png" 
+                        alt="${result.prediction}"
+                      />
+                    </div>
+                  </div>
+                `;
 
-                    resultContainer.innerHTML = `
-                        <div class="audio-content">
-                            <div class="audio-info">
-                                <div class="file-name">${fileName}</div>
-                                <!-- <div class="duration">${duration}</div> -->
-                            </div>
-                            <div class="audio-controls">
-                                <div class="prediction-indicator ${result.prediction.toLowerCase()}">
-                                    ${result.prediction.toLowerCase() === 'bonafide' ? 
-                                        // Bonafide SVG (checkmark)
-                                        `<svg class="prediction-icon" id='Checkmark_24' width='24' height='24' viewBox='0 0 24 24'>
-                                            <rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
-                                            <g transform="matrix(0.04 0 0 0.04 12 12)" >
-                                                <g style="" >
-                                                    <g transform="matrix(1 0 0 1 0 0)" class="prediction-icon-color">
-                                                        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;" transform=" translate(-256, -256)" d="M 504.1 256 C 504.1 119 393 7.9 256 7.9 C 119 7.9 7.9 119 7.9 256 C 7.9 393 119 504.1 256 504.1 C 393 504.1 504.1 393 504.1 256 z" stroke-linecap="round" />
-                                                    </g>
-                                                    <g transform="matrix(1 0 0 1 -0.01 0.09)" class="prediction-icon-color2">
-                                                        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;" transform=" translate(-255.99, -256.09)" d="M 392.6 172.9 C 386.8 157.8 374.90000000000003 160.20000000000002 362 162.8 C 354.3 164.4 320 174.4 265.9 231.60000000000002 C 243.39999999999998 255.3 228.59999999999997 274.20000000000005 218.79999999999998 288.6 C 212.79999999999998 281.3 205.99999999999997 273.40000000000003 198.79999999999998 266.3 C 176.7 244.2 152 229 151 228.4 C 140.7 222.1 127.2 225.3 120.8 235.70000000000002 C 114.5 246.00000000000003 117.7 259.5 128 265.90000000000003 C 128.2 266.00000000000006 149.4 279.1 167.6 297.40000000000003 C 186.2 316.00000000000006 203.1 341.20000000000005 203.3 341.50000000000006 C 207.4 347.70000000000005 214.3 351.30000000000007 221.60000000000002 351.30000000000007 C 222.8 351.30000000000007 224.10000000000002 351.20000000000005 225.40000000000003 351.00000000000006 C 234.00000000000003 349.50000000000006 240.80000000000004 343.1000000000001 242.90000000000003 334.70000000000005 C 243.00000000000003 334.50000000000006 251.70000000000005 310.40000000000003 297.6 262.00000000000006 C 334.6 222.90000000000006 359.3 210.50000000000006 367.90000000000003 207.10000000000005 C 368.00000000000006 207.10000000000005 368.00000000000006 207.10000000000005 368.20000000000005 207.10000000000005 C 368.20000000000005 207.10000000000005 368.50000000000006 207.00000000000006 369.00000000000006 206.70000000000005 C 370.50000000000006 206.10000000000005 371.30000000000007 205.90000000000003 371.30000000000007 205.90000000000003 C 370.9000000000001 206.00000000000003 370.70000000000005 206.00000000000003 370.70000000000005 206.00000000000003 L 370.70000000000005 205.90000000000003 C 374.70000000000005 204.20000000000005 382.1 201.00000000000003 382.20000000000005 200.90000000000003 C 393.3 196.1 397 184.1 392.6 172.9 z" stroke-linecap="round" />
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </svg>` : 
-                                        // Spoof SVG (warning)
-                                        `<svg class="prediction-icon" id='Road_Sign_Warning_24' width='24' height='24' viewBox='0 0 24 24'>
-                                            <rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
-                                            <g transform="matrix(0.83 0 0 0.83 12 12)" >
-                                                <path class="prediction-icon-color" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;" transform=" translate(-11.99, -12)" d="M 23.25 23.23 C 23.51226105011294 23.22883866933708 23.754865096079282 23.09076836964539 23.88979861607832 22.86587916964699 C 24.024732136077358 22.640989969648594 24.032392261232925 22.361953317470437 23.91 22.13 L 12.66 1.129999999999999 C 12.517186401469406 0.9032529587221613 12.267973776055626 0.7656921938165293 12 0.7656921938165293 C 11.732026223944374 0.7656921938165293 11.482813598530592 0.9032529587221615 11.34 1.1299999999999992 L 0.09 22.13 C -0.044286254797211266 22.35839018197667 -0.04428625479721146 22.641609818023326 0.08999999999999989 22.869999999999997 C 0.22306112241707074 23.096370696347005 0.4674467152198065 23.233837592298542 0.7299999999999999 23.229999999999997 Z M 12 20.48 C 11.391498229335507 20.479945908581392 10.843321039582088 20.112280762331384 10.61237031136203 19.549309920313497 C 10.381419583141971 18.986339078295607 10.51346168707555 18.339623705104444 10.946615418588898 17.91224535667794 C 11.379769150102248 17.484867008251435 12.02819856329998 17.36151715120637 12.588018821645514 17.600003390167124 C 13.147839079991048 17.838489629127878 13.50811335457008 18.391552318349945 13.5 19 C 13.48905761550292 19.820606128015704 12.820679077224067 20.480072952450836 12 20.48 Z M 12 8.23 C 12.552284749830793 8.23 13 8.677715250169207 13 9.23 L 13 14.7 C 13 15.252284749830793 12.552284749830793 15.7 12 15.7 C 11.447715250169207 15.7 11 15.252284749830793 11 14.7 L 11 9.23 C 11 8.677715250169207 11.447715250169207 8.23 12 8.23 Z" stroke-linecap="round" />
-                                            </g>
-                                        </svg>`
-                                    }
-                                    <span class="prediction-text">${result.prediction.toUpperCase()}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-
-                    // Create and add the audio element
-                    const audio = document.createElement("audio");
-                    audio.style.display = "none";
-                    if (originalContainer) {
-                        audio.src = originalContainer.querySelector("audio").src;
-                    }
-                    resultContainer.appendChild(audio);
-
-                    audioList2.appendChild(resultContainer);
-                }
+                audioList2.appendChild(resultContainer);
+              }
             });
-
-        } catch (error) {
-            clearInterval(intervalId);
-            console.error('Error:', error);
-            alert('An error occurred while processing the audio files.');
+          } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while processing the audio files.");
             loadingContainer.style.display = "none";
             document.querySelector(".analyze-part").style.display = "block";
-        }
-      });
+          }
+        });
 
       //SWITCH MODEL PART
       const toggleContainer = document.querySelector(".toggle-container");
@@ -561,9 +468,23 @@
         if (darkModeToggle.checked) {
           document.documentElement.setAttribute("data-theme", "dark");
           localStorage.setItem("theme", "dark");
+          // Update prediction icons to dark theme
+          document.querySelectorAll('.prediction-icon').forEach(icon => {
+            const currentSrc = icon.src;
+            icon.src = currentSrc.replace('-light.png', '-dark.png');
+          });
+          // Update loading icon to dark theme
+          document.querySelector('.loading-iconn img').src = '../static/images/loading_ico-fixed-dark.png';
         } else {
           document.documentElement.removeAttribute("data-theme");
           localStorage.setItem("theme", "light");
+          // Update prediction icons to light theme
+          document.querySelectorAll('.prediction-icon').forEach(icon => {
+            const currentSrc = icon.src;
+            icon.src = currentSrc.replace('-dark.png', '-light.png');
+          });
+          // Update loading icon to light theme
+          document.querySelector('.loading-iconn img').src = '../static/images/loading_ico-fixed.png';
         }
       });
 
@@ -573,6 +494,13 @@
         if (savedTheme === "dark") {
           darkModeToggle.checked = true;
           document.documentElement.setAttribute("data-theme", "dark");
+          // Update prediction icons to dark theme
+          document.querySelectorAll('.prediction-icon').forEach(icon => {
+            const currentSrc = icon.src;
+            icon.src = currentSrc.replace('-light.png', '-dark.png');
+          });
+          // Update loading icon to dark theme
+          document.querySelector('.loading-iconn img').src = '../static/images/loading_ico-fixed-dark.png';
         }
 
         // Check if coming back from simple mode
@@ -585,37 +513,80 @@
       // Simple mode toggle
       simpleModeToggle.addEventListener("change", () => {
         // Store the state in session storage
-        sessionStorage.setItem('simpleMode', simpleModeToggle.checked);
-        
+        sessionStorage.setItem("simpleMode", simpleModeToggle.checked);
+
         if (!simpleModeToggle.checked) {
-            window.location.href = "/";  // Use route instead of direct file path
+          // Reset progress and files before switching back to normal mode
+          fetch("/reset", {
+            method: "POST",
+          })
+            .then(() => {
+              window.location.href = "/"; // Redirect after reset
+            })
+            .catch((error) => {
+              console.error("Error resetting:", error);
+              window.location.href = "/"; // Redirect anyway if reset fails
+            });
         }
       });
 
       // Check stored state when page loads
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener("DOMContentLoaded", () => {
         // Set simple mode toggle to checked in simple.html
         if (simpleModeToggle) {
-            simpleModeToggle.checked = true;
-            sessionStorage.setItem('simpleMode', 'true');
+          simpleModeToggle.checked = true;
+          sessionStorage.setItem("simpleMode", "true");
         }
       });
 
       document.querySelector(".cancel-btn").onclick = async () => {
         try {
-            // Send termination request
-            await fetch('/terminate', {
-                method: 'POST',
-            });
-            
-            // Wait a brief moment for termination to process
-            await new Promise(resolve => setTimeout(resolve, 100));
-            
-            // Reload the page
-            location.reload();
+          // Send termination request which will reset backend counts
+          await fetch("/terminate", {
+            method: "POST",
+          });
+
+          // Close EventSource connection
+          if (eventSource && eventSource.readyState !== 2) {
+            eventSource.close();
+          }
+
+          // Reset frontend counts
+          progress = 0;
+          progressBar.style.width = "0%";
+          progressText.textContent = "Processing Audio Files...";
+
+          // Reload the page
+          location.reload();
         } catch (error) {
-            console.error('Error terminating prediction:', error);
-            location.reload();
+          console.error("Error terminating prediction:", error);
+          location.reload();
+        }
+      };
+
+      document.querySelector(".again-btn").onclick = async () => {
+        try {
+          // Reset backend counts
+          await fetch("/reset", {
+            // We'll create this endpoint
+            method: "POST",
+          });
+
+          // Close any existing EventSource
+          if (eventSource && eventSource.readyState !== 2) {
+            eventSource.close();
+          }
+
+          // Reset frontend counts
+          progress = 0;
+          progressBar.style.width = "0%";
+          progressText.textContent = "Processing Audio Files...";
+
+          // Reload the page
+          location.reload();
+        } catch (error) {
+          console.error("Error resetting:", error);
+          location.reload();
         }
       };
     </script>

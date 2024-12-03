@@ -320,4 +320,11 @@
     margin-left: -200px;
     transform: scale(0.65);
   }
+  .settings-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin-left: -40px;
+  }
 }
