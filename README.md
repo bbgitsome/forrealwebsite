@@ -4,6 +4,26 @@
 
 This repository contains the implementation of the thesis project titled ***"For Real?: A Hybrid Approach to Audio Deepfake Detection in Noisy Real-World Environments"***. The goal is to detect deepfake audio in noisy, real-world environments using a hybrid approach that combines handcrafted features with WavLM model features. The project includes a comparison between our proposed "For Real?" Model and a baseline model.
 
+## Features
+
+- Upload and analyze audio files
+- Detect if audio is **Bonafide (real)** or **Spoofed (deepfake)**
+- Uses a **Hybrid model** (WavLM + GFCC + CQT) with XGBoost classifier
+- Option to switch to a **Handcrafted-only model** (GFCC + CQT) for comparison
+- "Dark Mode" for preference
+- "Simple Mode" for faster, lightweight use
+
+## Datasets
+
+### Training Data
+- **ASVspoof 2019 LA (Train)**
+### Evaluation Data
+- **ASVspoof 2021 LA**  
+- **ASVspoof 2021 DF**  
+- **DeepVoice Dataset**  
+- **For Real? Dataset** *(custom-recorded samples)*  
+- **In-the-Wild Dataset** *(real-world noisy samples)* 
+
 ## Requirements
 - Python 3.12+ (recommended)
 
